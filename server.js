@@ -53,6 +53,6 @@ ioInstance.on("connection", function (socket) {
 });
 
 // Port
-server.listen(4000, function () {
+server.listen(process.env.PORT || 4000, function () {
   console.log("listening on *:4000");
 });
