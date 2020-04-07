@@ -47,5 +47,6 @@ Deze opdrachten staan in mijn WIKI
 ## Bronnen
 
 - [Socket IO](https://socket.io/get-started/chat/)
+- [Medium Simple Chat app](https://medium.com/@noufel.gouirhate/build-a-simple-chat-app-with-node-js-and-socket-io-ea716c093088)
 
 ## Credits
