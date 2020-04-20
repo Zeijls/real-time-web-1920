@@ -7,8 +7,7 @@
 - [Message Types](#Message-Types)
 - [Concept](#Concept)
 - [Data Life Cycle](#Data-Life-Cycle)
-- [Artikelen](#Artikelen)
-- [Opdrachten](#Opdrachten)
+- [Spotify API](#Spotify-API---Externe-Databron)
 - [Wishlist](#Wishlist)
 - [Bronnen](#Bronnen)
 - [Credits](#Credits)
@@ -42,7 +41,17 @@ npm run dev
 
 ## Concept
 
-Mijn concept is een game voor spotify. Om te beginnen met het spel moet je inloggen met jouw spotify account. De speler die als eerste is ingelogt kan het genre kiezen. Zodra er meer als 1 speler in de room aanwezig is kan de eerste speler het spel starten.
+## Game voor spotify
+
+### Autorisatie
+
+De gebruiker van de applicatie heeft een spotify account nodig. Als eerste scherm ziet de gebruiker een scherm met "Inloggen met Spotify". Zodra de gebruiker op deze knop klikt wordt hij door gestuurd naar de autorisatie. Als de autorisatie van spotify succesvol is afgerond komt hij in een grote room.
+
+## Room
+
+De eerste speler die in deze room terecht komt kan een genre kiezen voor het spel. Zodra er meer dan 1 speler in de room aanwezig is kan de eerste speler het spel starten.
+
+## Random track
 
 Er wordt een random track afgespeeld met 4 mogelijke antwoorden. De tracks worden maar 1x afgespeeld. Iedere speler geeft het antwoord waarvan hij denkt dat de track zo heet. Alle antwoorden worden bijgehouden, voor ieder goed antwoord krijg je een punt. In totaal worden er 10 tracks afgespeeld. Aan het einde van het spel wordt er bekend gemaakt wie de winnaar is, en op welke plaats de andere spelers zijn geindigt.
 
@@ -53,6 +62,19 @@ Er wordt een random track afgespeeld met 4 mogelijke antwoorden. De tracks worde
 
 ![DataLifeCycle](https://user-images.githubusercontent.com/45422060/79563053-565eb900-80ac-11ea-9aa1-4b233c3ae76b.png)
 
+## Spotify API - Externe Databron
+
+Voor het gebruik van de Spotfiy API heb je een spotify account nodig. Vervolgens kun je jouw applicatie registreren via [Spotify for Developers](https://developer.spotify.com/). Dit wordt uitgelegd in de [Quick Start](https://developer.spotify.com/documentation/web-api/quick-start/). Tijdens de quick start wordt gevraagd om een autorisatie code. Hiervoor kunt u de [Autorisatie guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/) volgen.
+
+Zodra de applicatie is geautoriseerd is het mogelijk door middel van verschillende [Autorisatie Scopes](https://developer.spotify.com/documentation/general/guides/scopes/) features aan de app toe te voegen.
+
+### Scopes
+
+Op dit moment heb ik nog maar 1 scope voor mijn applicatie gebruikt:
+
+- [user-modify-playback-state](https://developer.spotify.com/documentation/general/guides/scopes/#user-modify-playback-state)
+  - Met deze scope wordt door de gebruiker het genre gekozen, en een bijpassende afspeellijst terug gestuurd naar de server. Verschillende tracks uit de afspeellijst willekeurig gekozen, en hier een van afgespeelt op de client.
+
 ## Wishlist
 
 ## Bronnen
@@ -61,5 +83,7 @@ Er wordt een random track afgespeeld met 4 mogelijke antwoorden. De tracks worde
 - [Medium Simple Chat app](https://medium.com/@noufel.gouirhate/build-a-simple-chat-app-with-node-js-and-socket-io-ea716c093088)
 - [Voorbeeld Guido](https://github.com/guidobouman/rtw-chat)
 - [Socket.IO Demo Chat](https://github.com/socketio/socket.io/tree/master/examples/chat)
+- [Spotify for Developers](https://developer.spotify.com/)
+- [Quick Start](https://developer.spotify.com/documentation/web-api/quick-start/)
 
 ## Credits
