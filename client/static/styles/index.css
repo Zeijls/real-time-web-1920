@@ -1,0 +1,100 @@
+* {
+  background-color: #777;
+  color: #fff;
+}
+
+button {
+  background: lightgreen;
+  border-radius: 100px;
+  padding: 1rem 2rem;
+  border: 0;
+  font-size: 1rem;
+}
+
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #333333;
+    color: white;
+} */
+
+body {
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 1rem;
+}
+
+form {
+  /* background: white;
+    background-color: white; */
+  padding: 3px;
+}
+
+.username {
+  width: 50%;
+  margin-bottom: 2%;
+}
+
+.username > label {
+  display: flex;
+  flex: row;
+}
+
+.username h3 {
+  color: white;
+}
+
+.username input {
+  background: white;
+  color: black;
+  font-size: 1rem;
+}
+
+.username button {
+  margin: 0 5%;
+}
+
+form.message {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.message input {
+  background: white;
+  color: black;
+  font-size: 1rem;
+}
+
+form input {
+  border: 0;
+  padding: 10px;
+  width: 90%;
+  margin-right: 0.5%;
+}
+
+form button {
+  background: #6bccb4;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#messages li {
+  padding: 5px 10px;
+}
+
+/* #messages li:nth-child(odd) {
+    background: #eee;
+} */
+
+#messages li.server-message {
+  color: red;
+}
