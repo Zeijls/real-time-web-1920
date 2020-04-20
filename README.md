@@ -42,7 +42,9 @@ npm run dev
 
 ## Concept
 
-Mijn concept is een game voor spotify. In dit spel kun je samen met je vrienden nummers raden. Er wordt een random nummer afgespeeld met 4 mogelijke antwoorden. De speler die het eerste het goede antwoord heeft gegeven, krijgt de meeste punten. Er zijn 10 fragmenten, en uiteindelijk is er een winnaar.
+Mijn concept is een game voor spotify. Om te beginnen met het spel moet je inloggen met jouw spotify account. De speler die als eerste is ingelogt kan het genre kiezen. Zodra er meer als 1 speler in de room aanwezig is kan de eerste speler het spel starten.
+
+Er wordt een random track afgespeeld met 4 mogelijke antwoorden. De tracks worden maar 1x afgespeeld. Iedere speler geeft het antwoord waarvan hij denkt dat de track zo heet. Alle antwoorden worden bijgehouden, voor ieder goed antwoord krijg je een punt. In totaal worden er 10 tracks afgespeeld. Aan het einde van het spel wordt er bekend gemaakt wie de winnaar is, en op welke plaats de andere spelers zijn geindigt.
 
 <img width="404" alt="Screenshot 2020-04-14 at 14 40 55" src="https://user-images.githubusercontent.com/45422060/79226102-1f936380-7e5e-11ea-8520-337e707a9bfe.png">
 <img width="494" alt="Screenshot 2020-04-14 at 14 41 04" src="https://user-images.githubusercontent.com/45422060/79226111-21f5bd80-7e5e-11ea-9e16-9167bbe7a23c.png">
