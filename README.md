@@ -68,6 +68,9 @@ Voor het gebruik van de Spotfiy API heb je een spotify account nodig. Vervolgens
 
 Zodra de applicatie is geautoriseerd is het mogelijk door middel van verschillende [Autorisatie Scopes](https://developer.spotify.com/documentation/general/guides/scopes/) features aan de app toe te voegen.
 
+Dit is de autorisatie flow die ik heb gebruikt om data uit de spotify API te verkrijgen.
+<img width="1032" alt="Screenshot 2020-04-21 at 09 57 41" src="https://user-images.githubusercontent.com/45422060/79840793-b5774300-83b6-11ea-9a22-8983bca2c513.png">
+
 ### Scopes
 
 Op dit moment heb ik nog maar 1 scope voor mijn applicatie gebruikt:
