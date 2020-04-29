@@ -1,0 +1,107 @@
+* {
+  background-color: #111111;
+  color: #fff;
+  font-family: "Roboto", Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Buttons */
+
+.button {
+  background: #41CE47;
+  border-radius: 100px;
+  padding: 1rem 2rem;
+  border: 0;
+  font-size: 1rem;
+}
+
+.formButton {
+  background: #41CE47;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 0 10px 10px 0;
+  font-size: 1rem;
+}
+
+/* Socket chat form */
+
+form {
+  /* background: white;
+    background-color: white; */
+  padding: 3px;
+}
+
+/* Input field */
+form input {
+  border: 0;
+  padding: 10px;
+  width: 90%;
+  margin-right: 0.5%;
+}
+
+/* Username */
+.username {
+  width: 50%;
+  margin-bottom: 2%;
+}
+
+.username>label {
+  display: flex;
+  flex: row;
+}
+
+.username h3 {
+  color: white;
+}
+
+.username input {
+  background: white;
+  color: black;
+  font-size: 1rem;
+}
+
+/* .username button {
+  margin: 0 5%;
+} */
+
+/* Message */
+form.message {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.message input {
+  background: white;
+  color: black;
+  font-size: 1rem;
+}
+
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#messages li {
+  padding: 5px 10px;
+}
+
+/* #messages li:nth-child(odd) {
+    background: #eee;
+} */
+
+#messages li.server-message {
+  color: red;
+}
+
+/* Start game button */
+
+#StartGame {
+  position: absolute;
+  right: 3em;
+  top: 3em;
+}

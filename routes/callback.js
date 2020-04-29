@@ -35,7 +35,7 @@ module.exports = async (request, response, next) => {
     response.cookie(cookies.SPOTIFY_ACCESS_TOKEN, data.access_token);
     response.cookie(cookies.SPOTIFY_REFRESH_TOKEN, data.refresh_token);
 
-    response.redirect("/account");
+    response.redirect("/chat");
     // response.send(data);
   } catch (error) {
     console.log("Error!!!", error);

@@ -6,9 +6,18 @@
   "repository": "https://github.com/Zeijls/real-time-web-1920",
   "bugs": "https://github.com/Zeijls/real-time-web-1920/issues",
   "scripts": {
-    "dev": "nodemon app.js",
+    "prestart": "npm run build",
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "predev": "npm run build",
+    "dev": "nodemon app.js",
+    "prebuild": "rimraf ./static",
+    "build": "npm run build:css && npm run build:js && npm run build:img",
+    "build:css": "node ./scripts/build-css.js",
+    "build:js": "node ./scripts/build-js.js",
+    "build:img": "node ./scripts/build-img.js",
+    "watch:css": "chokidar './src/css/*.css' -c 'npm run build:css'",
+    "watch:js": "chokidar './src/js/*.js' -c 'npm run build:js'",
+    "watch:img": "chokidar './src/img/*.*' -c 'npm run build:img'"
   },
   "dependencies": {
     "cookie-parser": "^1.4.5",
@@ -16,12 +25,16 @@
     "dotenv-safe": "^8.2.0",
     "ejs": "^3.0.2",
     "express": "^4.17.1",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
     "heroku-cli": "^7.0.9",
     "module-alias": "^2.2.2",
+    "mongoose": "^5.9.10",
     "node-fetch": "^2.6.0",
     "nunjucks": "^3.2.1",
     "query-string": "^6.12.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "spotify-web-api-node": "^4.0.0"
   },
   "devDependencies": {
     "chokidar-cli": "^2.1.0",
