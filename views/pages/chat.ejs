@@ -1,49 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <%- include ('./../partials/head') %>
-</head>
+  </head>
 
-<body>
-    <form class="username" action="">
-        <label>
-            <input id="username" autocomplete="off" placeholder="Username" /><button class="formButton">Send</button>
-        </label>
+  <body>
+    <form class="username" id="usernameForm" action="">
+      <label>
+        <input id="username" autocomplete="off" placeholder="Username" /><button
+          class="formButton"
+        >
+          Send
+        </button>
+      </label>
     </form>
-    <a href="./songs.ejs" class="button" id="StartGame">Start Game!</a>
+
+    <!-- <a href="./songs.ejs" class="button" id="StartGame">Start Game!</a> -->
+    <a class="button" id="StartGame">Start Game!</a>
+
     <ul id="messages"></ul>
-    <form class="message" action="">
-        <input id="message" autocomplete="off" placeholder="Message" /><button class="formButton">Send</button>
+    <form class="message" id="messageForm" action="">
+      <input id="message" autocomplete="off" placeholder="Message" /><button
+        class="formButton"
+      >
+        Send
+      </button>
     </form>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/index.js"></script>
     <script>
-        $(function () {
-            var socket = io();
+      $(function () {
+        var socket = io();
 
-            $('form.username').submit(function (e) {
-                e.preventDefault(); // prevents page reloading
-                socket.emit('set user', $('#username').val());
-                return false;
-            });
-
-            $('form.message').submit(function (e) {
-                e.preventDefault(); // prevents page reloading
-                socket.emit('chat message', $('#message').val());
-                $('#message').val('');
-                return false;
-            });
-
-            socket.on('chat message', function (msg) {
-                $('#messages').append($('<li>').text(msg));
-            });
-            socket.on('server message', function (msg) {
-                $('#messages').append($('<li class="server-message">').text(msg));
-            });
+        $("form.username").submit(function (e) {
+          e.preventDefault(); // prevents page reloading
+          socket.emit("set user", $("#username").val());
+          return false;
         });
-    </script>
-</body>
 
+        // $("form.message").submit(function (e) {
+        //     e.preventDefault(); // prevents page reloading
+        //     socket.emit("chat message", $("#message").val());
+        //     $("#message").val("");
+        //     return false;
+        // });
+
+        // socket.on("chat message", function (msg) {
+        //     $("#messages").append($("<li>").text(msg));
+        // });
+        // socket.on("server message", function (msg) {
+        //     $("#messages").append($('<li class="server-message">').text(msg));
+        // });
+      });
+    </script>
+  </body>
 </html>
