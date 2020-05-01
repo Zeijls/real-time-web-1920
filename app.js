@@ -1,4 +1,5 @@
 require("dotenv").config();
+const fetch = require("node-fetch");
 
 const express = require("express");
 const app = express();
@@ -54,8 +55,8 @@ app.use(routes);
 
 // //user bijhouden
 // //https://stackoverflow.com/questions/18335028/socket-io-how-to-prompt-for-username-and-save-the-username-in-an-array
-// let connectedUsers = [];
-// let apiResults = [];
+let connectedUsers = [];
+let apiResults = [];
 
 ioInstance.on("connection", function (socket) {
   //https://dev.to/akhil_001/generating-random-color-with-single-line-of-js-code-fhj
@@ -96,56 +97,102 @@ ioInstance.on("connection", function (socket) {
     ioInstance.emit("chat message", `${userName}: ${msg}`);
   });
 
+  // Start game
   socket.on("start game", async function (id) {
+    console.log("Hallo game started");
     if (connectedUsers.length === 1) {
       apiResults = await getData();
       console.log(apiResults.length);
       console.log("Game Started!!!");
-      // playSong();
+      playSong();
     } else {
       // socket
     }
   });
 
-  // Data;
-  async function getData(apiResults) {
-    const accessToken = req.cookies.ACCESS_TOKEN;
+  socket.on("getSong", function (id) {
+    socket.emit("getTokens", id);
+  });
 
-    console.log("hoi");
-    const headers = {
+  // socket.on("playSong", function (myObject) {
+  //   console.log("my object is:", myObject);
+  //   // const query = queryString.stringify({
+  //   //   uris: ['spotify:track:${myObject.id}']
+  //   // })
+  //   fetch(`https://api.spotify.com/v1/me/player/play`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${myObject.accessToken}`,
+  //       },
+  //       body: JSON.stringify({
+  //         uris: [`spotify:track:${myObject.id}`],
+  //       }),
+  //     })
+  //     .then(async (response) => {
+  //       // const tracksData = await response.json();
+  //       // console.log("My response is:", response, response.status);
+  //       if (response.status == 403) {
+  //         socket.emit(
+  //           "server message",
+  //           "Server: You don't have a spotify premium account. You can chat with people but you can't listen to the party music."
+  //         );
+  //       }
+  //       if (response.status == 404) {
+  //         socket.emit(
+  //           "server message",
+  //           "Server: We can't find an active device please open your spotify application on your own device and start a random track to active the session."
+  //         );
+  //       }})
+
+  socket.on("playSong", function (myObject) {
+    console.log("my object is:", myObject);
+    // const query = queryString.stringify({
+    //   uris: ['spotify:track:${myObject.id}']
+    // })
+    fetch(`https://api.spotify.com/v1/me/player/play`, {
+      method: "PUT",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${myObject.accessToken}`,
       },
-    };
-
-    try {
-      const spotifyResponse = await fetch(
-        "https://api.spotify.com/v1/me/tracks",
-        headers
-      );
-      let data = await spotifyResponse.json();
-      data = data.items;
-      const cleanedData = cleanItems(data);
-      res.send(cleanedData);
-      console.log(cleanedData);
-    } catch (err) {
-      console.log("error fetching songs of user: ", err);
-    }
-  }
+      body: JSON.stringify({
+        uris: [`spotify:track:${myObject.id}`],
+      }),
+    }).then(async (response) => {
+      const tracksData = await response.json();
+      if (response.status == 403) {
+        socket.emit(
+          "server message",
+          "Server: You don't have a spotify premium account. You can chat with people but you can't listen to the party music."
+        );
+      }
+      if (response.status == 404) {
+        socket.emit(
+          "server message",
+          "Server: We can't find an active device please open your spotify application on your own device and start a random track to active the session."
+        );
+      }
+    });
+  });
 
   // function playSong() {
-  //   // radom track gekozen
+  //   // random track gekozen
+  //   const currantSongTitle = Object.values(randomMovie)[0].song;
+  //   const currantSongSample = Object.values(randomMovie)[0].sample;
+
   //   // naar iedere speler gestuurd
-  //   // random generator aangeroepen
+  //   // random generator aangeroepem
 
   //   // socket broadcast emit random song
   // }
 
-  //   function randomSongGenerator(gameResults) {
-  //     //radom track
+  //   function randomSongGenerator(apiResults) {
+  //     const songListLength = apiResults.length;
   //     const randomNumber = Math.floor(Math.random() * movieListLength);
+  //     const oneRandomSong = apiResults[randomNumber];
+
+  //     randomMovie.push(oneRandomMovie);
   //   }
 });
 

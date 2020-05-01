@@ -10,7 +10,7 @@ function setUsername(event) {
   event.preventDefault();
   // const userInputField = document.getElementById("usernameInput");
   console.log(usernameInput.value);
-  socket.emit("set user", username.value());
+  socket.emit("set user", usernameInput.value);
   // return false;
   // e.preventDefault(); // prevents page reloading
   // socket.emit("set user", usernameInput.value());
@@ -44,7 +44,7 @@ socket.on("chat message", function (msg, randomColor) {
 });
 
 // Start game
-// const startGame = document.getElementById("Start Game");
+// const startGame = document.getElementById("StartGame");
 
 // startGame.addEventListener("click", function () {
 //   console.log("Game started!");
@@ -52,3 +52,28 @@ socket.on("chat message", function (msg, randomColor) {
 //   const username = document.getElementById("username");
 //   socket.emit("start game", username.value);
 // });
+
+const btn = document.getElementById("StartGame");
+
+btn.addEventListener("click", playSong);
+
+function playSong(event) {
+  const songId = event.target.dataset.id;
+  // const randomSongId = songId(Math.random);
+  console.log(songId);
+  socket.emit("getSong", songId);
+}
+
+socket.on("getTokens", function (id) {
+  const accessToken = document.cookie
+    .split(";")
+    .find((item) => {
+      return item.includes("accessToken");
+    })
+    .split("=")[1]
+    .trim();
+  socket.emit("playSong", {
+    id,
+    accessToken,
+  });
+});

@@ -1,44 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include ('./../partials/head') %>
-  </head>
 
-  <body>
-    <form class="username" id="usernameForm" action="">
-      <label>
-        <input id="username" autocomplete="off" placeholder="Username" /><button
-          class="formButton"
-        >
-          Send
-        </button>
-      </label>
-    </form>
+<head>
+  <%- include ('./../partials/head') %>
+</head>
 
-    <!-- <a href="./songs.ejs" class="button" id="StartGame">Start Game!</a> -->
-    <a class="button" id="StartGame">Start Game!</a>
-
-    <ul id="messages"></ul>
-    <form class="message" id="messageForm" action="">
-      <input id="message" autocomplete="off" placeholder="Message" /><button
-        class="formButton"
-      >
+<body>
+  <form class="username" id="usernameForm" action="">
+    <label>
+      <input id="username" autocomplete="off" placeholder="Username" /><button class="formButton">
         Send
       </button>
-    </form>
+    </label>
+  </form>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="/index.js"></script>
-    <script>
+  <div class="playgame">
+
+    <!-- <a href="./songs.ejs" class="button" id="StartGame">Start Game!</a> -->
+    <!-- <a class="button" id="StartGame">Start Game!</a> -->
+    <!-- <button data-id="<%- tracksData.items[0].id %>" id="StartGame">
+      Start Game!
+    </button> -->
+
+
+    <button data-id="<%- tracksData.items[0].track.id %>" id="StartGame">Start Game!</button>
+
+
+  </div>
+
+  <ul id="messages"></ul>
+  <form class="message" id="messageForm" action="">
+    <input id="message" autocomplete="off" placeholder="Message" /><button class="formButton">
+      Send
+    </button>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="/index.js"></script>
+  <!-- <script>
       $(function () {
         var socket = io();
 
-        $("form.username").submit(function (e) {
-          e.preventDefault(); // prevents page reloading
-          socket.emit("set user", $("#username").val());
-          return false;
-        });
+        // $("form.username").submit(function (e) {
+        //   e.preventDefault(); // prevents page reloading
+        //   socket.emit("set user", $("#username").val());
+        //   return false;
+        // });
 
         // $("form.message").submit(function (e) {
         //     e.preventDefault(); // prevents page reloading
@@ -54,6 +62,7 @@
         //     $("#messages").append($('<li class="server-message">').text(msg));
         // });
       });
-    </script>
-  </body>
+    </script> -->
+</body>
+
 </html>
