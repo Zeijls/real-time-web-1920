@@ -49,7 +49,9 @@ npm run dev
 
 #### Autorisatie
 
-De gebruiker van de applicatie heeft een spotify account nodig. Als eerste scherm ziet de gebruiker een scherm met "Inloggen met Spotify". Zodra de gebruiker op deze knop klikt wordt hij door gestuurd naar de autorisatie. Als de autorisatie van spotify succesvol is afgerond komt hij in een grote room.
+De gebruiker van de applicatie heeft een spotify account nodig. Als eerste scherm ziet de gebruiker een scherm met "Inloggen met Spotify". Zodra de gebruiker op deze knop klikt wordt hij door gestuurd naar de autorisatie. Als de autorisatie van spotify succesvol is afgerond komt de gebruiker in de chat.
+
+<img width="1357" alt="Screenshot 2020-05-03 at 17 00 39" src="https://user-images.githubusercontent.com/45422060/80917506-a651a700-8d5f-11ea-8345-328d52909a65.png">
 
 ## Random track
 
