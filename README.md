@@ -45,19 +45,17 @@ npm run dev
 
 ## Concept
 
-## Game voor spotify
+### Game voor spotify
 
-### Autorisatie
+#### Autorisatie
 
 De gebruiker van de applicatie heeft een spotify account nodig. Als eerste scherm ziet de gebruiker een scherm met "Inloggen met Spotify". Zodra de gebruiker op deze knop klikt wordt hij door gestuurd naar de autorisatie. Als de autorisatie van spotify succesvol is afgerond komt hij in een grote room.
 
-## Room
-
-De eerste speler die in deze room terecht komt kan een genre kiezen voor het spel. Zodra er meer dan 1 speler in de room aanwezig is kan de eerste speler het spel starten.
-
 ## Random track
 
-Er wordt een random track afgespeeld met 4 mogelijke antwoorden. De tracks worden maar 1x afgespeeld. Iedere speler geeft het antwoord waarvan hij denkt dat de track zo heet. Alle antwoorden worden bijgehouden, voor ieder goed antwoord krijg je een punt. In totaal worden er 10 tracks afgespeeld. Aan het einde van het spel wordt er bekend gemaakt wie de winnaar is, en op welke plaats de andere spelers zijn geindigt.
+Alle spelers komen in hetzelfde spel terecht. Van de eerste speler in het spel wordt zijn lijst met opgeslagen nummers opgehaald vanuit de spotify API. Hier wordt een random track van afgespeelt voor alle deelnemers. Zodra een van de deelnemers weet welk nummer er wordt afgespeelt, kan hij het antwoord in de groepschat sturen. Als het antwoord goed is, heeft hij deze ronde gewonnen en krijgt hij een punt. Als het antwoord niet goed is blijft het spel gewoon door gaan. In totaal worden er 10 tracks afgespeeld. Aan het einde van het spel wordt er bekend gemaakt wie de winnaar is, en op welke plaats de andere spelers zijn geindigt.
+
+### Eerste schetsen concept
 
 <img width="404" alt="Screenshot 2020-04-14 at 14 40 55" src="https://user-images.githubusercontent.com/45422060/79226102-1f936380-7e5e-11ea-8520-337e707a9bfe.png">
 <img width="494" alt="Screenshot 2020-04-14 at 14 41 04" src="https://user-images.githubusercontent.com/45422060/79226111-21f5bd80-7e5e-11ea-9e16-9167bbe7a23c.png">
@@ -82,14 +80,18 @@ Zodra de applicatie is geautoriseerd is het mogelijk door middel van verschillen
 
 Op dit moment heb ik nog maar 1 scope voor mijn applicatie gebruikt:
 
-- [user-modify-playback-state](https://developer.spotify.com/documentation/general/guides/scopes/#user-modify-playback-state)
-  - Met deze scope wordt door de gebruiker het genre gekozen, en een bijpassende afspeellijst terug gestuurd naar de server. Verschillende tracks uit de afspeellijst willekeurig gekozen, en hier een van afgespeelt op de client.
+- [user-library-read](https://developer.spotify.com/documentation/general/guides/scopes/#user-library-read)
+  - Van deze scrope gebruik ik [Get a User's Saved Tracks](https://developer.spotify.com/documentation/web-api/reference/library/get-users-saved-tracks/). Met deze scope kan ik alle opgeslagen tracks van de eerste gebruiker in het spel ophalen.
+- [Streaming](https://developer.spotify.com/documentation/general/guides/scopes/#streaming)
+  - Van deze scope gebruik ik [Get Information About The User's Current Playback](https://developer.spotify.com/documentation/web-api/reference/player/get-information-about-the-users-current-playback/). Op de server is er een random track gekozen van bovenstaande lijst. Met deze scope kan ik de random track afspelen bij iedere gebruiker. Het is hiervoor wel noodzakelijk dat er al een ander liedje wordt afgespeelt, en alle gebruikers een premium spotify account hebben. Als dit niet het geval is zal dit in een melding worden aangegeven.
 
 ## Wishlist
 
 - Verschillende rooms
 - Een pin toevoegen waardoor je met je eigen vrienden kunt spelen
 - Scorebord
+- Keuze voor een genre
+- 4 antwoordmogelijkheden (Kahoot idee)
 
 ## Bronnen
 
@@ -104,3 +106,4 @@ Op dit moment heb ik nog maar 1 scope voor mijn applicatie gebruikt:
 
 - Mohammed, Hij heeft mij uitgelegd hoe je via de autorisatie scopes een nummer kunt afspelen
 - Robin, hij heeft mij geholpen met het controleren van een antwoord in de chat
+- Kris hij heeft mij geholpen met het opzetten van de database in mongoose
