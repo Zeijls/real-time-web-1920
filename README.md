@@ -60,7 +60,7 @@ Er wordt een random track afgespeeld met 4 mogelijke antwoorden. De tracks worde
 
 ## Data Life Cycle
 
-![DataLifeCycle](https://user-images.githubusercontent.com/45422060/80916237-c1201d80-8d57-11ea-8f84-62a99a538855.png)
+![DataLifeCycle](https://user-images.githubusercontent.com/45422060/80916396-a9956480-8d58-11ea-8674-1696e78b3e3c.png)
 [Authorization code flow](#Authorization-code-flow)
 
 ## Spotify API - Externe Databron
