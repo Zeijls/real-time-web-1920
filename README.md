@@ -28,16 +28,20 @@ cd real-time-web-1920
 npm run dev
 ```
 
-## Message Types
+## Real time events
 
 ### Client
 
 - `chat message` : Een berichtje versturen naar andere gebruikers in de chat
 - `set user` : Username invoeren
 
+- `get tokens`: Accestoken en ID opvragen bij iedere client
+
 ### Server
 
 - `server message` : Een notificatie van de server naar de gebruikers > Voorbeeld "welcome to the void", "Your username was changed to \$...", enz.
+
+- `play song`: Random Track afspelen bij iedere gebruiker dmv de [Start/Resume a User's Playback Scope](https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/).
 
 ## Concept
 
@@ -67,12 +71,12 @@ Er wordt een random track afgespeeld met 4 mogelijke antwoorden. De tracks worde
 
 Voor het gebruik van de Spotfiy API heb je een spotify account nodig. Vervolgens kun je jouw applicatie registreren via [Spotify for Developers](https://developer.spotify.com/). Dit wordt uitgelegd in de [Quick Start](https://developer.spotify.com/documentation/web-api/quick-start/). Tijdens de quick start wordt gevraagd om een autorisatie code. Hiervoor kunt u de [Autorisatie guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/) volgen.
 
-Zodra de applicatie is geautoriseerd is het mogelijk door middel van verschillende [Autorisatie Scopes](https://developer.spotify.com/documentation/general/guides/scopes/) features aan de app toe te voegen.
-
 ### Authorization code flow
 
 Dit is de autorisatie flow die ik heb gebruikt om data uit de spotify API te verkrijgen.
 <img width="1032" alt="Screenshot 2020-04-21 at 09 57 41" src="https://user-images.githubusercontent.com/45422060/79840793-b5774300-83b6-11ea-9a22-8983bca2c513.png">
+
+Zodra de applicatie is geautoriseerd is het mogelijk door middel van verschillende [Autorisatie Scopes](https://developer.spotify.com/documentation/general/guides/scopes/) features aan de app toe te voegen.
 
 ### Scopes
 
@@ -82,6 +86,10 @@ Op dit moment heb ik nog maar 1 scope voor mijn applicatie gebruikt:
   - Met deze scope wordt door de gebruiker het genre gekozen, en een bijpassende afspeellijst terug gestuurd naar de server. Verschillende tracks uit de afspeellijst willekeurig gekozen, en hier een van afgespeelt op de client.
 
 ## Wishlist
+
+- Verschillende rooms
+- Een pin toevoegen waardoor je met je eigen vrienden kunt spelen
+- Scorebord
 
 ## Bronnen
 
@@ -93,3 +101,6 @@ Op dit moment heb ik nog maar 1 scope voor mijn applicatie gebruikt:
 - [Quick Start](https://developer.spotify.com/documentation/web-api/quick-start/)
 
 ## Credits
+
+- Mohammed, Hij heeft mij uitgelegd hoe je via de autorisatie scopes een nummer kunt afspelen
+- Robin, hij heeft mij geholpen met het controleren van een antwoord in de chat
