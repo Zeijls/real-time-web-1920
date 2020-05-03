@@ -56,7 +56,10 @@ app.use(routes);
 // //user bijhouden
 // //https://stackoverflow.com/questions/18335028/socket-io-how-to-prompt-for-username-and-save-the-username-in-an-array
 let connectedUsers = [];
+let gameResults = {};
 let apiResults = [];
+let movieLeftovers = [];
+let randomMovie = [];
 
 ioInstance.on("connection", function (socket) {
   //https://dev.to/akhil_001/generating-random-color-with-single-line-of-js-code-fhj
@@ -94,57 +97,27 @@ ioInstance.on("connection", function (socket) {
 
   socket.on("chat message", function (msg) {
     console.log("message: " + msg);
+    // songTitleCheck(msg, gameResults);
     ioInstance.emit("chat message", `${userName}: ${msg}`);
   });
 
   // Start game
   socket.on("start game", async function (id) {
-    console.log("Hallo game started");
-    if (connectedUsers.length === 1) {
-      apiResults = await getData();
-      console.log(apiResults.length);
-      console.log("Game Started!!!");
-      playSong();
-    } else {
-      // socket
-    }
+    gameResults[userName] = {
+      userId: socket.id,
+      wins: 0,
+    };
+
+    socket.emit("player role", `player role guesser`);
+
+    const currantSongTitle = tracksData.items[0].track.name;
+    io.emit("player guessed movie", currantSongTitle, userName);
   });
 
   socket.on("getSong", function (id) {
     socket.emit("getTokens", id);
     socket.broadcast.emit("getTokens", id);
   });
-
-  // socket.on("playSong", function (myObject) {
-  //   console.log("my object is:", myObject);
-  //   // const query = queryString.stringify({
-  //   //   uris: ['spotify:track:${myObject.id}']
-  //   // })
-  //   fetch(`https://api.spotify.com/v1/me/player/play`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${myObject.accessToken}`,
-  //       },
-  //       body: JSON.stringify({
-  //         uris: [`spotify:track:${myObject.id}`],
-  //       }),
-  //     })
-  //     .then(async (response) => {
-  //       // const tracksData = await response.json();
-  //       // console.log("My response is:", response, response.status);
-  //       if (response.status == 403) {
-  //         socket.emit(
-  //           "server message",
-  //           "Server: You don't have a spotify premium account. You can chat with people but you can't listen to the party music."
-  //         );
-  //       }
-  //       if (response.status == 404) {
-  //         socket.emit(
-  //           "server message",
-  //           "Server: We can't find an active device please open your spotify application on your own device and start a random track to active the session."
-  //         );
-  //       }})
 
   socket.on("playSong", function (myObject) {
     console.log("my object is:", myObject);
@@ -159,6 +132,7 @@ ioInstance.on("connection", function (socket) {
       },
       body: JSON.stringify({
         uris: [`spotify:track:${myObject.id}`],
+        title: [`spotify:track:${myObject.name}`],
       }),
     }).then(async (response) => {
       const tracksData = await response.json();
@@ -177,23 +151,38 @@ ioInstance.on("connection", function (socket) {
     });
   });
 
-  // function playSong() {
-  //   // random track gekozen
-  //   const currantSongTitle = Object.values(randomMovie)[0].song;
-  //   const currantSongSample = Object.values(randomMovie)[0].sample;
+  //   function randomTrackGenerator(tracksData) {
+  //     const tracksDataLength = tracksData.length;
+  //     const randomNumber = Math.floor(Math.random() * tracksDataLength);
+  //     console.log(randomNumber);
+  //     const oneRandomTrack = tracksData[randomNumber];
 
-  //   // naar iedere speler gestuurd
-  //   // random generator aangeroepem
+  //     randomTrack.push(oneRandomTrack);
+  //   }
 
-  //   // socket broadcast emit random song
-  // }
+  //   function songTitleCheck(msg, gameResults) {
+  //     const currantSongTitle = tracksData.items(randomTrack)[0].track.name;
+  //     const currantSongSample = tracksData.items(randomTrack)[0].track.id;
 
-  //   function randomSongGenerator(apiResults) {
-  //     const songListLength = apiResults.length;
-  //     const randomNumber = Math.floor(Math.random() * movieListLength);
-  //     const oneRandomSong = apiResults[randomNumber];
+  //     if (chatmessage === currantSongTitle) {
+  //       ioInstance.emit("chat message", `${userName}: ${msg}`, randomColor);
+  //       ioInstance.emit(
+  //         "server message",
+  //         `${userName} guessed the movie! It was: ${movieTitleUpper}`
+  //       );
+  //       ioInstance.emit("player guessed movie", `a player guessed it!`);
+  //       console.log(gameResults);
+  //       let setPoint = gameResults[userName].wins++;
 
-  //     randomMovie.push(oneRandomMovie);
+  //       drawPlayer = Object.keys(gameResults)[setDrawingRole];
+  //       console.log(gameResults);
+  //       randomMovieGenerator(gameResults);
+
+  //       randomSong.length = 0;
+  //     } else {
+  //       // io.emit("chat message", `${userName}: ${msg}`, randomColor);
+  //       ioInstance.emit("chat message", `${userName}: ${msg}`, randomColor);
+  //     }
   //   }
 });
 
