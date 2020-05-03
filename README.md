@@ -1,18 +1,40 @@
-# Real-Time Web @cmda-minor-web · 2019-2020
+<h1 align="center">Real-Time Web @cmda-minor-web · 2019-2020</h1>
+
+<p align="center"><b>In deze applicatie kun je tijdens de corona tijd samen met je vrienden de Spotify Game spelen. Je komt met elkaar in een chat, en er wordt een random liedje afgespeelt. Als je de naam van de titel weet kun je deze in de groepschat sturen, als het antwoord goed is kan je punten verdienen. </b>
+</p>
+
+<br>
+
+<p align="center">
+  <a href="https://real-time-web-simone.herokuapp.com/">
+    <img src="https://img.shields.io/badge/demo-LIVE-brightgreen.svg?style=flat-square" alt="demo">
+  </a>
+  &nbsp;&nbsp;&nbsp;
+</p>
+
+<br>
+
+<img width="1362" alt="Screenshot 2020-05-03 at 17 09 39" src="https://user-images.githubusercontent.com/45422060/80917663-e402ff80-8d60-11ea-89f0-59fca9616958.png">
+
+<br>
 
 ## Inhoud
 
 - [Prototype](#Prototype)
 - [Installatie](#Installatie)
-- [Message Types](#Message-Types)
+- [Real time events](#Real-time-events)
+  - [Client](#Client)
+  - [Server](#Server)
 - [Concept](#Concept)
 - [Data Life Cycle](#Data-Life-Cycle)
 - [Spotify API](#Spotify-API---Externe-Databron)
+  - [Autorization code flow](Autorization-code-flow)
+  - [Scopes](#Scopes)
 - [Wishlist](#Wishlist)
 - [Bronnen](#Bronnen)
 - [Credits](#Credits)
 
-## Live Demo
+## Prototype
 
 [Prototype](https://real-time-web-simone.herokuapp.com/)
 
@@ -53,7 +75,7 @@ De gebruiker van de applicatie heeft een spotify account nodig. Als eerste scher
 
 <img width="1357" alt="Screenshot 2020-05-03 at 17 00 39" src="https://user-images.githubusercontent.com/45422060/80917506-a651a700-8d5f-11ea-8345-328d52909a65.png">
 
-## Random track
+#### Random track
 
 Alle spelers komen in hetzelfde spel terecht. Van de eerste speler in het spel wordt zijn lijst met opgeslagen nummers opgehaald vanuit de spotify API. Hier wordt een random track van afgespeelt voor alle deelnemers. Zodra een van de deelnemers weet welk nummer er wordt afgespeelt, kan hij het antwoord in de groepschat sturen. Als het antwoord goed is, heeft hij deze ronde gewonnen en krijgt hij een punt. Als het antwoord niet goed is blijft het spel gewoon door gaan. In totaal worden er 10 tracks afgespeeld. Aan het einde van het spel wordt er bekend gemaakt wie de winnaar is, en op welke plaats de andere spelers zijn geindigt.
 
@@ -65,6 +87,7 @@ Alle spelers komen in hetzelfde spel terecht. Van de eerste speler in het spel w
 ## Data Life Cycle
 
 ![DataLifeCycle](https://user-images.githubusercontent.com/45422060/80916396-a9956480-8d58-11ea-8674-1696e78b3e3c.png)
+<br>
 [Authorization code flow](#Authorization-code-flow)
 
 ## Spotify API - Externe Databron
