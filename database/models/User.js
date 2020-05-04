@@ -6,6 +6,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  wins: {
+    type: Number,
+    required: false,
+  },
 });
 
 module.exports = model("User", userSchema);

@@ -12,7 +12,7 @@ a {
 
 .button {
   background: #41CE47;
-  border-radius: 100px;
+  border-radius: 50px;
   padding: 1rem 2rem;
   border: 0;
   font-size: 1rem;
@@ -38,13 +38,13 @@ form {
 form input {
   border: 0;
   padding: 10px;
-  width: 90%;
+  width: 100%;
   margin-right: 0.5%;
 }
 
 /* Username */
 .username {
-  width: 50%;
+  /* width: 50%; */
   margin-bottom: 2%;
 }
 
@@ -63,6 +63,27 @@ form input {
   font-size: 1rem;
 }
 
+/* Message */
+.message {
+  width: 40%;
+  margin-bottom: 2%;
+}
+
+.message>label {
+  display: flex;
+  flex: row;
+}
+
+.message h3 {
+  color: white;
+}
+
+.message input {
+  background: white;
+  color: black;
+  font-size: 1rem;
+}
+
 /* .username button {
   margin: 0 5%;
 } */
@@ -71,7 +92,7 @@ form input {
 form.message {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 40%;
 }
 
 .message input {
@@ -90,18 +111,39 @@ form.message {
   padding: 5px 10px;
 }
 
-/* #messages li:nth-child(odd) {
-    background: #eee;
-} */
-
+/* Server message  */
 #messages li.server-message {
-  color: red;
+  border: 5px #41CE47;
+  background: #41CE47;
+  margin: 5px;
 }
 
-/* Start game button */
+#StartGame {
+  padding: 1.5rem 3rem;
+  min-width: 5rem;
+  font-size: 1.5rem;
+}
 
 #StartGame {
   position: absolute;
-  right: 3em;
-  top: 3em;
+  top: 3rem;
+  /* right: 15rem; */
+  right: 3rem;
+}
+
+/* chat form */
+
+body {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.chatForm {
+  width: 40%;
+}
+
+.playgame {
+  width: 60%;
+
 }

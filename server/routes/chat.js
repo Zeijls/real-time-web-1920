@@ -11,9 +11,21 @@ module.exports = function chat(req, res) {
   }).then(async (response) => {
     console.log("response chat");
     const data = await response.json();
-    // console.log(data.items);
+
+    //generate random number
+    const randomNumber = await randomNumberGenerator(data.items);
+    // const randomTrack
+
+    console.log(randomNumber);
+
+    console.log(data.items[randomNumber]);
+
     res.render("pages/chat", {
-      tracksData: data,
+      tracksData: data.items[randomNumber],
     });
   });
 };
+
+function randomNumberGenerator(tracksData) {
+  return Math.floor(Math.random() * tracksData.length);
+}

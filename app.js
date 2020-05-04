@@ -59,7 +59,7 @@ let connectedUsers = [];
 let gameResults = {};
 let apiResults = [];
 let movieLeftovers = [];
-let randomMovie = [];
+let randomTrack = [];
 let tracksData = [];
 
 ioInstance.on("connection", function (socket) {
@@ -153,48 +153,35 @@ ioInstance.on("connection", function (socket) {
     });
   });
 
-  //   function randomTrackGenerator(tracksData) {
-  //     const tracksDataLength = tracksData.length;
-  //     const randomNumber = Math.floor(Math.random() * tracksDataLength);
-  //     console.log(randomNumber);
-  //     const oneRandomTrack = tracksData[randomNumber];
-
-  //     randomTrack.push(oneRandomTrack);
-  //   }
-
   function songTitleCheck(msg) {
-    // const currantSongTitle = tracksData.items;
-    // console.log(currantSongTitle);
-    // const currantSongSample = tracksData.items[9].track.id;
-    // console.log(msg);
+    const messageInputField = msg.messageInputField;
+    const actualSong = msg.actualSong;
 
-    if (msg.messageInputField === msg.actualSong) {
+    if (messageInputField === actualSong) {
       ioInstance.emit(
         "chat message",
-        `${userName}: ${msg.messageInputField}`,
+        `${userName}: ${messageInputField}`,
         randomColor
       );
       ioInstance.emit(
-        "SERVER MESSAGE",
-        `${userName} guessed the song! It was: ${msg.actualSong}`
+        "server message",
+        `SERVER: ${userName} guessed the song! It was: ${actualSong}.`
       );
-      ioInstance.emit("player guessed song", `a player guessed it!`);
-      console.log(gameResults);
+      // console.log(actualSong);
+      ioInstance.emit("player guessed song", userName, actualSong);
 
+      // Score
       if (gameResults[userName].wins) {
         gameResults[userName].wins++;
       } else {
         gameResults[userName].wins = 1;
       }
       console.log(gameResults);
-      // let setPoint = gameResults[userName].wins++;
 
-      // drawPlayer = Object.keys(gameResults)[setDrawingRole];
-      // console.log(gameResults);
+      // new song
+      ioInstance.emit("user won", {});
 
-      // randomMovieGenerator(gameResults);
-
-      // randomSong.length = 0;
+      // Show Score
     } else {
       // io.emit("chat message", `${userName}: ${msg}`, randomColor);
       ioInstance.emit(
