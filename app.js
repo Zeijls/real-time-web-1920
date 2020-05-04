@@ -97,8 +97,8 @@ ioInstance.on("connection", function (socket) {
 
   socket.on("chat message", function (msg) {
     console.log("message: " + msg);
-    // songTitleCheck(msg, gameResults);
-    ioInstance.emit("chat message", `${userName}: ${msg}`);
+    songTitleCheck(msg, gameResults);
+    // ioInstance.emit("chat message", `${userName}: ${msg}`);
   });
 
   // Start game
@@ -160,30 +160,30 @@ ioInstance.on("connection", function (socket) {
   //     randomTrack.push(oneRandomTrack);
   //   }
 
-  //   function songTitleCheck(msg, gameResults) {
-  //     const currantSongTitle = tracksData.items(randomTrack)[0].track.name;
-  //     const currantSongSample = tracksData.items(randomTrack)[0].track.id;
+  function songTitleCheck(msg, gameResults) {
+    const currantSongTitle = tracksData.items(randomTrack)[0].track.name;
+    const currantSongSample = tracksData.items(randomTrack)[0].track.id;
 
-  //     if (chatmessage === currantSongTitle) {
-  //       ioInstance.emit("chat message", `${userName}: ${msg}`, randomColor);
-  //       ioInstance.emit(
-  //         "server message",
-  //         `${userName} guessed the movie! It was: ${movieTitleUpper}`
-  //       );
-  //       ioInstance.emit("player guessed movie", `a player guessed it!`);
-  //       console.log(gameResults);
-  //       let setPoint = gameResults[userName].wins++;
+    if (chatmessage === currantSongTitle) {
+      ioInstance.emit("chat message", `${userName}: ${msg}`, randomColor);
+      ioInstance.emit(
+        "server message",
+        `${userName} guessed the movie! It was: ${movieTitleUpper}`
+      );
+      ioInstance.emit("player guessed movie", `a player guessed it!`);
+      console.log(gameResults);
+      let setPoint = gameResults[userName].wins++;
 
-  //       drawPlayer = Object.keys(gameResults)[setDrawingRole];
-  //       console.log(gameResults);
-  //       randomMovieGenerator(gameResults);
+      drawPlayer = Object.keys(gameResults)[setDrawingRole];
+      console.log(gameResults);
+      randomMovieGenerator(gameResults);
 
-  //       randomSong.length = 0;
-  //     } else {
-  //       // io.emit("chat message", `${userName}: ${msg}`, randomColor);
-  //       ioInstance.emit("chat message", `${userName}: ${msg}`, randomColor);
-  //     }
-  //   }
+      randomSong.length = 0;
+    } else {
+      // io.emit("chat message", `${userName}: ${msg}`, randomColor);
+      ioInstance.emit("chat message", `${userName}: ${msg}`, randomColor);
+    }
+  }
 });
 
 server.listen(port, () => {
