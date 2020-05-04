@@ -50,8 +50,28 @@ const startGame = document.getElementById("StartGame");
 
 startGame.addEventListener("click", function () {
   event.preventDefault();
-  const username = document.getElementById("username");
+  console.log(startGame);
+
   socket.emit("start game", username);
+});
+
+// Next song
+const nextSong = document.getElementById("nextSong");
+
+nextSong.addEventListener("click", function () {
+  event.preventDefault();
+  const token = nextSong.dataset.token;
+
+  socket.emit("next song", token);
+});
+
+socket.on("newSong", function (data) {
+  console.log("newSong");
+
+  console.log(data);
+  document.getElementById("currentSong").value = data.track.name;
+  document.getElementById("trackName").innerHTML = data.track.name;
+  document.getElementById("StartGame").dataset.id = data.track.id;
 });
 
 const btn = document.getElementById("StartGame");
@@ -60,7 +80,8 @@ btn.addEventListener("click", playSong);
 
 function playSong(event) {
   const songId = event.target.dataset.id;
-  const songTitle = event.target.dataset.name;
+  console.log(songId);
+  // const songTitle = event.target.dataset.name;
   console.log(songId);
   socket.emit("getSong", songId);
 }
@@ -80,18 +101,10 @@ socket.on("getTokens", function (id) {
   });
 });
 
-socket.on("user won", function (id) {
-  console.log("user won test");
+// socket.on("user won", function (id) {
+//   console.log("user won test");
 
-  const username = usernameInput.value;
-  const messages = document.getElementById("messages");
-
-  console.log(messages);
-
-  location.reload();
-
-  document.getElementById("messages").outerHTML = messages;
-});
+// });
 
 socket.on("player guessed song", function (userName, actualSong) {
   const showSong = document.getElementById("roundEnd");

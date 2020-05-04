@@ -32,6 +32,8 @@ module.exports = async (request, response, next) => {
     const spotifyResponse = await fetch(url, fetchOptions);
     const data = await spotifyResponse.json();
 
+    console.log(data);
+
     response.cookie(cookies.SPOTIFY_ACCESS_TOKEN, data.access_token);
     response.cookie(cookies.SPOTIFY_REFRESH_TOKEN, data.refresh_token);
 

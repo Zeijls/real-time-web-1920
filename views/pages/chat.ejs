@@ -32,9 +32,14 @@
 
 
   <div class="playgame">
-    <p><%- tracksData.track.name %></p>
+    <p id="trackName"><%- tracksData.track.name %></p>
     <button data-id="<%- tracksData.track.id %>" id="StartGame" class="button">
       Play song!
+    </button>
+
+
+    <button id="nextSong" class="button" data-token="<%- token %>">
+      Next song!
     </button>
 
 

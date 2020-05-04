@@ -103,6 +103,28 @@ ioInstance.on("connection", function (socket) {
     // ioInstance.emit("chat message", `${userName}: ${msg}`);
   });
 
+  socket.on("next song", async function (token) {
+    console.log(token);
+
+    function randomNumberGenerator(tracksData) {
+      return Math.floor(Math.random() * tracksData.length);
+    }
+
+    const data = await fetch("https://api.spotify.com/v1/me/tracks", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(async (response) => {
+      const data = await response.json();
+      const randomNumber = await randomNumberGenerator(data.items);
+
+      return data.items[randomNumber];
+    });
+    console.log(data);
+    socket.emit("newSong", data);
+  });
+
   // Start game
   socket.on("start game", async function (id) {
     gameResults[userName] = {
