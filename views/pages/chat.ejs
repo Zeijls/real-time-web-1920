@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include ('./../partials/head') %>
-  </head>
 
-  <body>
-    <form class="username" id="usernameForm" action="">
-      <label>
-        <input id="username" autocomplete="off" placeholder="Username" /><button
-          class="formButton"
-        >
-          Send
-        </button>
-      </label>
-    </form>
+<head>
+  <%- include ('./../partials/head') %>
+</head>
 
-    <div class="playgame">
-      <p><%- tracksData.items[9].track.name %></p>
-      <button
-        data-id="<%- tracksData.items[9].track.id %>"
-        id="StartGame"
-        class="button"
-      >
-        Start Game!
+<body>
+  <form class="username" id="usernameForm" action="">
+    <label>
+      <input id="username" autocomplete="off" placeholder="Username" /><button class="formButton">
+        Send
       </button>
-    </div>
+    </label>
+  </form>
 
-    <!-- <section id="roundEnd">
+  <div class="playgame">
+    <p><%- tracksData.items[9].track.name %></p>
+    <button data-id="<%- tracksData.items[9].track.id %>" id="StartGame" class="button">
+      Start Game!
+    </button>
+  </div>
+
+  <!-- <section id="roundEnd">
     <article id="informationTextAboutRound">
     </article>
   </section>
@@ -36,17 +31,18 @@
 
     </section> -->
 
-    <ul id="messages"></ul>
-    <form class="message" id="messageForm" action="">
-      <input id="message" autocomplete="off" placeholder="Message" /><button
-        class="formButton"
-      >
-        Send
-      </button>
-    </form>
+  <ul id="messages"></ul>
+  <form class="message" id="messageForm" action="">
+    <input type="hidden" id="currentSong" value="<%- tracksData.items[9].track.name %>">
+    <input id="message" autocomplete="off" placeholder="Message" type="text" />
+    <button class="formButton">
+      Send
+    </button>
+  </form>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="/index.js"></script>
-  </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="/index.js"></script>
+</body>
+
 </html>

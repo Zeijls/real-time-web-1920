@@ -60,6 +60,7 @@ let gameResults = {};
 let apiResults = [];
 let movieLeftovers = [];
 let randomMovie = [];
+let tracksData = [];
 
 ioInstance.on("connection", function (socket) {
   //https://dev.to/akhil_001/generating-random-color-with-single-line-of-js-code-fhj
@@ -97,7 +98,8 @@ ioInstance.on("connection", function (socket) {
 
   socket.on("chat message", function (msg) {
     console.log("message: " + msg);
-    songTitleCheck(msg, gameResults);
+    // console.log(msg);
+    songTitleCheck(msg);
     // ioInstance.emit("chat message", `${userName}: ${msg}`);
   });
 
@@ -108,10 +110,10 @@ ioInstance.on("connection", function (socket) {
       wins: 0,
     };
 
-    socket.emit("player role", `player role guesser`);
+    // socket.emit("player role", `player role guesser`);
 
-    const currantSongTitle = tracksData.items[0].track.name;
-    io.emit("player guessed movie", currantSongTitle, userName);
+    //   const currantSongTitle = tracksData.items[0].track.name;
+    // io.emit("player guessed movie", currantSongTitle, userName);
   });
 
   socket.on("getSong", function (id) {
@@ -135,7 +137,7 @@ ioInstance.on("connection", function (socket) {
         title: [`spotify:track:${myObject.name}`],
       }),
     }).then(async (response) => {
-      const tracksData = await response.json();
+      tracksData = await response.json();
       if (response.status == 403) {
         socket.emit(
           "server message",
@@ -160,28 +162,46 @@ ioInstance.on("connection", function (socket) {
   //     randomTrack.push(oneRandomTrack);
   //   }
 
-  function songTitleCheck(msg, gameResults) {
-    const currantSongTitle = tracksData.items(randomTrack)[0].track.name;
-    const currantSongSample = tracksData.items(randomTrack)[0].track.id;
+  function songTitleCheck(msg) {
+    // const currantSongTitle = tracksData.items;
+    // console.log(currantSongTitle);
+    // const currantSongSample = tracksData.items[9].track.id;
+    // console.log(msg);
 
-    if (chatmessage === currantSongTitle) {
-      ioInstance.emit("chat message", `${userName}: ${msg}`, randomColor);
+    if (msg.messageInputField === msg.actualSong) {
       ioInstance.emit(
-        "server message",
-        `${userName} guessed the movie! It was: ${movieTitleUpper}`
+        "chat message",
+        `${userName}: ${msg.messageInputField}`,
+        randomColor
       );
-      ioInstance.emit("player guessed movie", `a player guessed it!`);
+      ioInstance.emit(
+        "SERVER MESSAGE",
+        `${userName} guessed the song! It was: ${msg.actualSong}`
+      );
+      ioInstance.emit("player guessed song", `a player guessed it!`);
       console.log(gameResults);
-      let setPoint = gameResults[userName].wins++;
 
-      drawPlayer = Object.keys(gameResults)[setDrawingRole];
+      if (gameResults[userName].wins) {
+        gameResults[userName].wins++;
+      } else {
+        gameResults[userName].wins = 1;
+      }
       console.log(gameResults);
-      randomMovieGenerator(gameResults);
+      // let setPoint = gameResults[userName].wins++;
 
-      randomSong.length = 0;
+      // drawPlayer = Object.keys(gameResults)[setDrawingRole];
+      // console.log(gameResults);
+
+      // randomMovieGenerator(gameResults);
+
+      // randomSong.length = 0;
     } else {
       // io.emit("chat message", `${userName}: ${msg}`, randomColor);
-      ioInstance.emit("chat message", `${userName}: ${msg}`, randomColor);
+      ioInstance.emit(
+        "chat message",
+        `${userName}: ${msg.messageInputField}`,
+        randomColor
+      );
     }
   }
 });

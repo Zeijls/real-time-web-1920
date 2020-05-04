@@ -22,9 +22,11 @@ messageForm.addEventListener("submit", inputText);
 
 function inputText(event) {
   event.preventDefault();
-  const messageInputField = document.getElementById("message");
-  console.log(messageInputField.value);
-  socket.emit("chat message", messageInputField.value);
+  console.log("inputText event");
+  const messageInputField = document.getElementById("message").value;
+  const actualSong = document.getElementById("currentSong").value;
+
+  socket.emit("chat message", { messageInputField, actualSong });
 }
 
 socket.on("server message", function (msg) {
@@ -61,7 +63,7 @@ function playSong(event) {
   const songTitle = event.target.dataset.name;
   // const randomSongId = songId(Math.random);
   console.log(songId);
-  socket.emit("getSong", songId, songTitle);
+  socket.emit("getSong", songId);
 }
 
 socket.on("getTokens", function (id) {
