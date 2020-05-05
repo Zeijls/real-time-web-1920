@@ -145,7 +145,7 @@ ioInstance.on("connection", function (socket) {
     }
     console.log(gameResults[userName].nextRound);
 
-    if (gameResults[userName].nextRound === 7) {
+    if (gameResults[userName].nextRound === 3) {
       console.log("PLayer reach question 10!");
       // ioInstance.emit("player guessed song", userName, actualSong);
       ioInstance.emit("end game", userName, gameResults);
