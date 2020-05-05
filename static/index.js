@@ -148,16 +148,17 @@ socket.on("player guessed song", function (userName, actualSong) {
   // );
 });
 
-socket.on("end game", function () {
+socket.on("end game", function (userName, gameResults) {
   // console.log(wins);
   // console.log(userName);
   // const showSong = document.getElementById("roundEnd");
   // const showWinner = document.getElementById("informationTextAboutRound");
+  console.log("Hier kom ik nog");
   const scoreBoard = document.getElementById("informationTextAboutRound");
   while (scoreBoard.firstChild) scoreBoard.firstChild.remove();
   const mapTest = new Map(
     Object.entries(gameResults).map(([key, value]) => [
-      key[userName],
+      key["userName"],
       value["wins"],
       console.log("test", key, value),
       scoreBoard.insertAdjacentHTML(
@@ -166,10 +167,10 @@ socket.on("end game", function () {
       ),
     ])
   );
-  showWinner.insertAdjacentHTML(
-    "beforeend",
-    `<h1>Round 10: The End, check the scoreboard to see wich place you are!</h1>`
-  );
+  // showWinner.insertAdjacentHTML(
+  //   "beforeend",
+  //   `<h1>Round 10: The End, check the scoreboard to see wich place you are!</h1>`
+  // );
   // showWinner.insertAdjacentHTML(
   //   "beforeend",
   //   `<h2>${userName} is the winner of this round!</h2>`
