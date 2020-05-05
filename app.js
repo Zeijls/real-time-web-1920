@@ -32,7 +32,7 @@ User.create(newUser);
 User.find().then((users) => {
   const firstUser = users[0];
 
-  console.log(firstUser);
+  // console.log(firstUser);
 });
 
 const http = require("http");
@@ -57,6 +57,7 @@ app.use(routes);
 // //https://stackoverflow.com/questions/18335028/socket-io-how-to-prompt-for-username-and-save-the-username-in-an-array
 let connectedUsers = [];
 let gameResults = {};
+let nextRound = {};
 let apiResults = [];
 let movieLeftovers = [];
 let randomTrack = [];
@@ -103,8 +104,8 @@ ioInstance.on("connection", function (socket) {
     // ioInstance.emit("chat message", `${userName}: ${msg}`);
   });
 
-  socket.on("next song", async function (token) {
-    console.log(token);
+  socket.on("next song", async function (token, nextRound) {
+    // console.log(token);
 
     function randomNumberGenerator(tracksData) {
       return Math.floor(Math.random() * tracksData.length);
@@ -118,12 +119,31 @@ ioInstance.on("connection", function (socket) {
     }).then(async (response) => {
       const data = await response.json();
       const randomNumber = await randomNumberGenerator(data.items);
+      // nextRound++;
+      updateRound();
 
       return data.items[randomNumber];
     });
-    console.log(data);
+
     socket.emit("newSong", data);
   });
+
+  function updateRound() {
+    if (nextRound.round) {
+      nextRound.round++;
+    } else {
+      nextRound.round = 1;
+    }
+
+    // if (gameResults[userName].wins) {
+    //   gameResults[userName].wins++;
+    // } else {
+    //   gameResults[userName].wins = 1;
+    // }
+    // nextRound.round++;
+
+    console.log(nextRound);
+  }
 
   // Start game
   socket.on("start game", async function (id) {
@@ -131,6 +151,10 @@ ioInstance.on("connection", function (socket) {
       userId: socket.id,
       wins: 0,
     };
+
+    // nextRound = {
+    //   round: 0,
+    // };
 
     // socket.emit("player role", `player role guesser`);
 
@@ -144,7 +168,7 @@ ioInstance.on("connection", function (socket) {
   });
 
   socket.on("playSong", function (myObject) {
-    console.log("my object is:", myObject);
+    // console.log("my object is:", myObject);
     // const query = queryString.stringify({
     //   uris: ['spotify:track:${myObject.id}']
     // })
@@ -198,7 +222,7 @@ ioInstance.on("connection", function (socket) {
       } else {
         gameResults[userName].wins = 1;
       }
-      console.log(gameResults);
+      // console.log(gameResults);
 
       // new song
       ioInstance.emit("user won", {});

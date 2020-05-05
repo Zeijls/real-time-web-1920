@@ -59,11 +59,35 @@ startGame.addEventListener("click", function () {
 const nextSong = document.getElementById("nextSong");
 
 nextSong.addEventListener("click", function () {
+  console.log("hallo");
+  const cleanInformation = document.getElementById("informationTextAboutRound");
+  cleanInformation.innerHTML = "";
+
   event.preventDefault();
   const token = nextSong.dataset.token;
 
   socket.emit("next song", token);
 });
+
+// const nextSong = document.getElementById("nextSong");
+
+// nextSong.addEventListener("click", () => {
+//   generateNextSong(), newRound();
+// });
+
+// function generateNextSong(nextSong) {
+//   const cleanInformation = document.getElementById("informationTextAboutRound");
+//   cleanInformation.innerHTML = "";
+
+//   event.preventDefault();
+//   const token = nextSong.dataset.token;
+
+//   socket.emit("next song", token);
+// }
+
+// function newRound(nextSong) {
+//   let gameRound = gameround++;
+// }
 
 socket.on("newSong", function (data) {
   console.log("newSong");

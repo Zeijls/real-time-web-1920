@@ -113,9 +113,10 @@ form.message {
 
 /* Server message  */
 #messages li.server-message {
-  border: 5px #41CE47;
-  background: #41CE47;
+  border: 5px #83D16D;
+  background: #83D16D;
   margin: 5px;
+  color: black;
 }
 
 #StartGame {

@@ -126,6 +126,7 @@ Op dit moment heb ik nog maar 1 scope voor mijn applicatie gebruikt:
 - [Socket.IO Demo Chat](https://github.com/socketio/socket.io/tree/master/examples/chat)
 - [Spotify for Developers](https://developer.spotify.com/)
 - [Quick Start](https://developer.spotify.com/documentation/web-api/quick-start/)
+- [SocketIO Cheetsheet](https://socket.io/docs/emit-cheatsheet/)
 
 ## Credits
 
