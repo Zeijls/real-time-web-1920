@@ -57,7 +57,10 @@ app.use(routes);
 // //https://stackoverflow.com/questions/18335028/socket-io-how-to-prompt-for-username-and-save-the-username-in-an-array
 let connectedUsers = [];
 let gameResults = {};
-let nextRound = {};
+// let gameResults = {}
+// let nextRound = {};
+let gamePoint = {};
+// let wins = {};
 let apiResults = [];
 let movieLeftovers = [];
 let randomTrack = [];
@@ -87,6 +90,12 @@ ioInstance.on("connection", function (socket) {
       "server message",
       `SERVER: User ${oldUsername} changed their name to ${userName}.`
     );
+
+    gameResults[userName] = {
+      // userId = socket.id,
+      wins: 0,
+      nextRound: 1,
+    };
   });
 
   socket.on("disconnect", function () {
@@ -104,7 +113,7 @@ ioInstance.on("connection", function (socket) {
     // ioInstance.emit("chat message", `${userName}: ${msg}`);
   });
 
-  socket.on("next song", async function (token, nextRound) {
+  socket.on("next song", async function (token, userName) {
     // console.log(token);
 
     function randomNumberGenerator(tracksData) {
@@ -120,7 +129,7 @@ ioInstance.on("connection", function (socket) {
       const data = await response.json();
       const randomNumber = await randomNumberGenerator(data.items);
       // nextRound++;
-      updateRound();
+      updateRound(userName);
 
       return data.items[randomNumber];
     });
@@ -129,42 +138,44 @@ ioInstance.on("connection", function (socket) {
   });
 
   function updateRound() {
-    if (nextRound.round) {
-      nextRound.round++;
+    if (gameResults[userName].nextRound) {
+      gameResults[userName].nextRound++;
     } else {
-      nextRound.round = 1;
+      gameResults[userName].nextRound = 1;
     }
+    console.log(gameResults[userName].nextRound);
 
-    // if (gameResults[userName].wins) {
-    //   gameResults[userName].wins++;
-    // } else {
-    //   gameResults[userName].wins = 1;
-    // }
-    // nextRound.round++;
-
-    console.log(nextRound);
+    if (gameResults[userName].nextRound === 2) {
+      console.log("PLayer reach question 10!");
+      // ioInstance.emit("player guessed song", userName, actualSong);
+      ioInstance.emit("end game", userName, gameResults);
+      ioInstance.emit(
+        "server message",
+        `SERVER: ${userName} has guessed 10 songs and ended the game!`
+      );
+    }
   }
 
   // Start game
-  socket.on("start game", async function (id) {
-    gameResults[userName] = {
-      userId: socket.id,
-      wins: 0,
-    };
+  // socket.on("start game", async function (id) {
+  //   gameResults[userName] = {
+  //     userId: socket.id,
+  //     wins: 0,
+  //   };
 
-    // nextRound = {
-    //   round: 0,
-    // };
+  //   // nextRound = {
+  //   //   round: 0,
+  //   // };
 
-    // socket.emit("player role", `player role guesser`);
+  //   // socket.emit("player role", `player role guesser`);
 
-    //   const currantSongTitle = tracksData.items[0].track.name;
-    // io.emit("player guessed movie", currantSongTitle, userName);
-  });
+  //   //   const currantSongTitle = tracksData.items[0].track.name;
+  //   // io.emit("player guessed movie", currantSongTitle, userName);
+  // });
 
   socket.on("getSong", function (id) {
     socket.emit("getTokens", id);
-    socket.broadcast.emit("getTokens", id);
+    // socket.broadcast.emit("getTokens", id);
   });
 
   socket.on("playSong", function (myObject) {
@@ -217,15 +228,26 @@ ioInstance.on("connection", function (socket) {
       ioInstance.emit("player guessed song", userName, actualSong);
 
       // Score
-      if (gameResults[userName].wins) {
-        gameResults[userName].wins++;
-      } else {
-        gameResults[userName].wins = 1;
-      }
+
+      setAPoint(userName);
+
+      // if (gameResults[userName].wins) {
+      //   gameResults[userName].wins++;
+      // } else {
+      //   gameResults[userName].wins = 1;
+      // }
+      // console.log(gameResults[userName].wins);
+      // if (gameResults[userName].wins) {
+      //   gameResults[userName].wins++;
+      // } else {
+      //   gameResults[userName].wins = 1;
+      // }
       // console.log(gameResults);
 
       // new song
-      ioInstance.emit("user won", {});
+      // if (wins < 10) {
+      //   ioInstance.emit("user won", {});
+      // }
 
       // Show Score
     } else {
@@ -236,6 +258,24 @@ ioInstance.on("connection", function (socket) {
         randomColor
       );
     }
+  }
+
+  function setAPoint(userName) {
+    if (gameResults[userName].wins) {
+      gameResults[userName].wins++;
+    } else {
+      gameResults[userName].wins = 1;
+    }
+    console.log(gameResults[userName].wins);
+
+    // if (nextRound === 2) {
+    //   console.log("PLayer reach question 10!");
+    //   socket.emit("end game"), userName;
+    //   ioInstance.emit(
+    //     "server message",
+    //     `SERVER: ${userName} has guessed 10 songs and ended the game!`
+    //   );
+    // }
   }
 });
 
