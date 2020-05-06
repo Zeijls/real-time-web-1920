@@ -101,7 +101,7 @@ ioInstance.on("connection", function (socket) {
 
   // Disconnect
   socket.on("disconnect", function () {
-    console.log(`user with id ${userName} disconnected`);
+    console.log(`user with id ${userName} has left the game`);
     ioInstance.emit(
       "server message",
       `SERVER: User ${userName} has left the game.`
