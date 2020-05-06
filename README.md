@@ -228,16 +228,13 @@ return data.items[randomNumber];
 
 In dit stukje wordt de volgende functie aangeroepen die een random getal genereert:
 
-````js
-
+```js
 function randomNumberGenerator(tracksData) {
   return Math.floor(Math.random() * tracksData.length);
 }
-
 ```
 
 Nu de data is gefetcht, is er een array met alle nummers die de gebruiker aan zijn "liked songs" afspeellijst heeft toegevoegd.
-
 
 </details>
 
@@ -246,42 +243,39 @@ Nu de data is gefetcht, is er een array met alle nummers die de gebruiker aan zi
 </summary>
 Nu de afspeellijst van de gebruiker is opgehaald, kan er een nummer worden afgespeelt. Hiervoor wordt bovenstaande scope van de spotify api gebruikt.
 
-``` js
-
-  // Play song
-  socket.on("playSong", function (myObject) {
-    // Fetch for streaming spotify to play a track
-    fetch(`https://api.spotify.com/v1/me/player/play`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${myObject.accessToken}`,
-      },
-      body: JSON.stringify({
-        uris: [`spotify:track:${myObject.id}`],
-        title: [`spotify:track:${myObject.name}`],
-      }),
-    }).then(async (response) => {
-      tracksData = await response.json();
-      if (response.status == 403) {
-        socket.emit(
-          "server message",
-          "Server: You don't have a spotify premium account. You can chat with people but you can't listen to the party music."
-        );
-      }
-      if (response.status == 404) {
-        socket.emit(
-          "server message",
-          "Server: We can't find an active device please open your spotify application on your own device and start a random track to active the session."
-        );
-      }
-    });
+```js
+// Play song
+socket.on("playSong", function (myObject) {
+  // Fetch for streaming spotify to play a track
+  fetch(`https://api.spotify.com/v1/me/player/play`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${myObject.accessToken}`,
+    },
+    body: JSON.stringify({
+      uris: [`spotify:track:${myObject.id}`],
+      title: [`spotify:track:${myObject.name}`],
+    }),
+  }).then(async (response) => {
+    tracksData = await response.json();
+    if (response.status == 403) {
+      socket.emit(
+        "server message",
+        "Server: You don't have a spotify premium account. You can chat with people but you can't listen to the party music."
+      );
+    }
+    if (response.status == 404) {
+      socket.emit(
+        "server message",
+        "Server: We can't find an active device please open your spotify application on your own device and start a random track to active the session."
+      );
+    }
   });
+});
+```
 
-  ```
-
-  In bovenstaande code wordt de naam en het id van de track opgehaalt uit de gefetchte data, met het id kan de streamer het nummer afspelen, en de naam wordt gebruikt om te controlleren of het goede nummer is ingevuld in de chat.
-
+In bovenstaande code wordt de naam en het id van de track opgehaalt uit de gefetchte data, met het id kan de streamer het nummer afspelen, en de naam wordt gebruikt om te controlleren of het goede nummer is ingevuld in de chat.
 
 </details>
 
@@ -297,7 +291,7 @@ ioInstance.emit(
   `${userName}: ${messageInputField}`,
   randomColor
 );
-````
+```
 
 Op deze manier wordt er een border om heen geplaatst met de random kleur.
 
@@ -326,24 +320,99 @@ socket.on("chat message", function (msg) {
 <details>
 <summary>next round: Hiermee gaat de gebruiker naar de volgende ronde van het spel, er wordt een nieuw random nummer uit de lijst gegenereerd.
 </summary>
+Zodra de spelers het nummer niet weten, of goed hebben beantwoord kunnen ze op button "next round" klikken om naar de volgende ronde te gaan. Als er op deze button wordt geklikt wordt er een nieuw random getal gegenereert waarna vervolgens het nieuwe random nummer wordt afgespeelt, hiervoor wordt de socket play song herbruikt. Deze loop wordt 10 keer herhaalt, daarna is het spel afgelopen.
 
 </details>
 
 <details>
-<summary>player guessed song: 
+<summary>player guessed song: De gebruiker heeft een nummer goed geraden en ontvang hiervoor een punt
 </summary>
+Zodra een gebruiker het nummer goed heeft geraden, zal hij hier feedback op krijgen, en een punt verdienen. Hiervoor heb ik de volgende code geschreven:
+
+```js
+socket.on("player guessed song", function (userName, actualSong) {
+  const showSong = document.getElementById("roundEnd");
+  const showWinner = document.getElementById("informationTextAboutRound");
+  showWinner.insertAdjacentHTML(
+    "beforeend",
+    `<h1>The song was: ${actualSong} </h1>`
+  );
+  showWinner.insertAdjacentHTML(
+    "beforeend",
+    `<h2>${userName} is the winner of this round!</h2>`
+  );
+  showWinner.insertAdjacentHTML("beforeend", `<p>${userName} gets 1 point</p>`);
+});
+```
+
+Om het deze gebruiker een punt te geven wordt de volgende functie geactiveert:
+
+```js
+
+  // Winners point
+  function setAPoint(userName) {
+    if (gameResults[userName].wins) {
+      gameResults[userName].wins++;
+    } else {
+      gameResults[userName].wins = 1;
+    }
+  }
+});
+
+```
 
 </details>
 
 <details>
-<summary>score board: Het scoreboard geeft het aantal gewonnen punten per gebruiker weer.
+<summary>score board: Het scoreboard geeft het aantal verdiende punten per gebruiker weer.
 </summary>
+Nu de gebruiker een punt heeft gescoort, wordt dit punt weergegeven op het scorebord. Alle gebruikers die een username hebben ingevuld worden hierop weergegeven, en starten met 0 punten. Zodra een gebruiker een punt heeft gescoort wordt dit dus aangepast met de volgende code:
+
+```js
+// Score board
+socket.on("score board", function (gameResults) {
+  const scoreBoard = document.getElementById("scoreBoard");
+  while (scoreBoard.firstChild) scoreBoard.firstChild.remove();
+  scoreBoard.insertAdjacentHTML("afterbegin", `<h1>Score Board</h1>`);
+  const mapTest = new Map(
+    Object.entries(gameResults).map(([key, value]) => [
+      key["userName"],
+      value["wins"],
+      console.log("test", key, value),
+      scoreBoard.insertAdjacentHTML(
+        "beforeend",
+        `<p>${key}: ${value.wins}</p>`
+      ),
+    ])
+  );
+});
+```
 
 </details>
 
 <details>
-<summary>end game: 
+<summary>end game: alle 10 rondes van het spel zijn gespeelt en het spel is afgelopen
 </summary>
+Zodra er 10 rondes in het spel zijn gespeeld is het spel afgelopen. Om dit duidelijk te maken worden de buttons "play" en "next round" niet meer weergegeven, daarnaast krijgt de gebruiker hier feedback over. Dit heb ik geinplementeerd met de volgende code:
+
+```js
+// End game
+socket.on("end game", function (userName, gameResults) {
+  console.log("Hier kom ik nog");
+  const scoreBoard = document.getElementById("informationTextAboutRound");
+  while (scoreBoard.firstChild) scoreBoard.firstChild.remove();
+  scoreBoard.insertAdjacentHTML("beforeend", `<h1>Game is over!</h1>`),
+    scoreBoard.insertAdjacentHTML(
+      "beforeend",
+      `<h2>Check the scoreboard to see who win the game</h2>`
+    );
+
+  const removeNextButton = document.getElementById("nextSong");
+  const removePlaySong = document.getElementById("StartGame");
+  removeNextButton.remove();
+  removePlaySong.remove();
+});
+```
 
 </details>
 
