@@ -417,20 +417,21 @@ socket.on("end game", function (userName, gameResults) {
 
 </details>
 
-## Features
-
 ## Wishlist Features
 
-`Set user`:
-
+- Gebruiker laten kiezen tussen verschillende genres
 - Server message zodra de gebruiker zijn username nog niet heeft ingevuld, maar wel wilt meedoen aan het spel
 - Username controleren of hij beschikbaar is, om zelfde usernames te voorkomen
-
-- Verschillende rooms
-- Een pin toevoegen waardoor je met je eigen vrienden kunt spelen
-- Scorebord
-- Keuze voor een genre
-- 4 antwoordmogelijkheden (Kahoot idee)
+- Autoscroll in de chat zodra de berichten niet meer in 1 scherm passen
+- Rondes weergeven
+- Controle minder streng ten opzicht van speciale tekens of samenwerkingen in titel
+- Next round direct nummer laat afspelen zonder op play te hoeven klikken
+- Hidden input direct updaten aan current playing song bij iedere gebruiker
+- In het scoreboard de speler met het meeste punten bovenaan
+- Voorkomen dat hetzelfde nummer in de 10 rondes 2x kan worden afgespeelt
+- 4 antwoordmogelijkheden ipv antwoord in de chat (Kahoot Idee)]
+- Puntentelling, wie eerder is met het goede antwoord krijgt meer punten
+- Eindscores van een spel en usernames opslaan in een database
 
 ## Bronnen
 
@@ -441,9 +442,13 @@ socket.on("end game", function (userName, gameResults) {
 - [Spotify for Developers](https://developer.spotify.com/)
 - [Quick Start](https://developer.spotify.com/documentation/web-api/quick-start/)
 - [SocketIO Cheetsheet](https://socket.io/docs/emit-cheatsheet/)
+- [Mongoose](https://mongoosejs.com/docs/guide.html)
+- [Random Color](https://dev.to/akhil_001/generating-random-color-with-single-line-of-js-code-fhj)
+- [Users bijhouden](https://stackoverflow.com/questions/18335028/socket-io-how-to-prompt-for-username-and-save-the-username-in-an-array)
 
 ## Credits
 
 - Mohammed, Hij heeft mij uitgelegd hoe je via de autorisatie scopes een nummer kunt afspelen
 - Robin, hij heeft mij geholpen met het controleren van een antwoord in de chat
 - Kris hij heeft mij geholpen met het opzetten van de database in mongoose
+- Manouk, zij heeft mij geholpen met het opzetten van het scoreboard
