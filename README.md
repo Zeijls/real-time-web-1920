@@ -17,16 +17,14 @@
 ## Inhoud
 
 - [Prototype](#Prototype)
-- [Installatie](#Installatie)
-- [Real time events](#Real-time-events)
-  - [Client](#Client)
-  - [Server](#Server)
 - [Concept](#Concept)
 - [Data Life Cycle](#Data-Life-Cycle)
+- [Installatie](#Installatie)
 - [Spotify API](#Spotify-API---Externe-Databron)
   - [Autorization code flow](Autorization-code-flow)
   - [Scopes](#Scopes)
-- [Wishlist](#Wishlist)
+- [Real time events](#Real-time-events)
+- [Wishlist Features](#Wishlist-Features)
 - [Bronnen](#Bronnen)
 - [Credits](#Credits)
 
@@ -50,11 +48,6 @@ Alle spelers komen in hetzelfde spel terecht. Zodra een van de spelers op play k
 
 <img width="1440" alt="Screenshot 2020-05-06 at 02 36 02" src="https://user-images.githubusercontent.com/45422060/81128876-c42b3180-8f42-11ea-960a-34ec9b3ddf74.png">
 <img width="1440" alt="Screenshot 2020-05-06 at 02 36 16" src="https://user-images.githubusercontent.com/45422060/81128878-c55c5e80-8f42-11ea-96f1-67bc7c1513a7.png">
-
-### Eerste schetsen concept
-
-<img width="404" alt="Screenshot 2020-04-14 at 14 40 55" src="https://user-images.githubusercontent.com/45422060/79226102-1f936380-7e5e-11ea-8520-337e707a9bfe.png">
-<img width="494" alt="Screenshot 2020-04-14 at 14 41 04" src="https://user-images.githubusercontent.com/45422060/79226111-21f5bd80-7e5e-11ea-9e16-9167bbe7a23c.png">
 
 ## Data Life Cycle
 
