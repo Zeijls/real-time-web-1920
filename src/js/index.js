@@ -6,17 +6,14 @@ const usernameInput = document.getElementById("username");
 const usernameForm = document.getElementById("usernameForm");
 usernameForm.addEventListener("submit", setUsername);
 
+// Set Username
 function setUsername(event) {
   event.preventDefault();
-  // const userInputField = document.getElementById("usernameInput");
   console.log(usernameInput.value);
   socket.emit("set user", usernameInput.value);
-  // return false;
-  // e.preventDefault(); // prevents page reloading
-  // socket.emit("set user", usernameInput.value());
-  // return false;
 }
 
+// Message input
 const messageForm = document.getElementById("messageForm");
 messageForm.addEventListener("submit", inputText);
 
@@ -27,8 +24,11 @@ function inputText(event) {
   const actualSong = document.getElementById("currentSong").value;
 
   socket.emit("chat message", { messageInputField, actualSong });
+  const chatForm = document.getElementById("messageForm");
+  chatForm.reset();
 }
 
+// Server message
 socket.on("server message", function (msg) {
   const messages = document.getElementById("messages");
   messages.insertAdjacentHTML(
@@ -37,6 +37,7 @@ socket.on("server message", function (msg) {
   );
 });
 
+// Chat Message
 socket.on("chat message", function (msg, randomColor) {
   const messages = document.getElementById("messages");
   messages.insertAdjacentHTML(
@@ -69,26 +70,7 @@ nextSong.addEventListener("click", function () {
   socket.emit("next song", token);
 });
 
-// const nextSong = document.getElementById("nextSong");
-
-// nextSong.addEventListener("click", () => {
-//   generateNextSong(), newRound();
-// });
-
-// function generateNextSong(nextSong) {
-//   const cleanInformation = document.getElementById("informationTextAboutRound");
-//   cleanInformation.innerHTML = "";
-
-//   event.preventDefault();
-//   const token = nextSong.dataset.token;
-
-//   socket.emit("next song", token);
-// }
-
-// function newRound(nextSong) {
-//   let gameRound = gameround++;
-// }
-
+// New Song
 socket.on("newSong", function (data) {
   console.log("newSong");
 
@@ -98,6 +80,7 @@ socket.on("newSong", function (data) {
   document.getElementById("StartGame").dataset.id = data.track.id;
 });
 
+// Play Song
 const btn = document.getElementById("StartGame");
 
 btn.addEventListener("click", playSong);
@@ -110,6 +93,7 @@ function playSong(event) {
   socket.emit("getSong", songId);
 }
 
+// Get Tokens
 socket.on("getTokens", function (id) {
   const accessToken = document.cookie
     .split(";")
@@ -125,11 +109,7 @@ socket.on("getTokens", function (id) {
   });
 });
 
-// socket.on("user won", function (id) {
-//   console.log("user won test");
-
-// });
-
+// Player guessed song
 socket.on("player guessed song", function (userName, actualSong) {
   const showSong = document.getElementById("roundEnd");
   const showWinner = document.getElementById("informationTextAboutRound");
@@ -142,20 +122,13 @@ socket.on("player guessed song", function (userName, actualSong) {
     `<h2>${userName} is the winner of this round!</h2>`
   );
   showWinner.insertAdjacentHTML("beforeend", `<p>${userName} gets 1 point</p>`);
-  // showSong.insertAdjacentHTML(
-  //   "beforeend",
-  //   // show image of cover song
-  // );
 });
 
-socket.on("end game", function (userName, gameResults) {
-  // console.log(wins);
-  // console.log(userName);
-  // const showSong = document.getElementById("roundEnd");
-  // const showWinner = document.getElementById("informationTextAboutRound");
-  console.log("Hier kom ik nog");
-  const scoreBoard = document.getElementById("informationTextAboutRound");
+// Score board
+socket.on("score board", function (gameResults) {
+  const scoreBoard = document.getElementById("scoreBoard");
   while (scoreBoard.firstChild) scoreBoard.firstChild.remove();
+  scoreBoard.insertAdjacentHTML("afterbegin", `<h1>Score Board</h1>`);
   const mapTest = new Map(
     Object.entries(gameResults).map(([key, value]) => [
       key["userName"],
@@ -167,17 +140,21 @@ socket.on("end game", function (userName, gameResults) {
       ),
     ])
   );
-  // showWinner.insertAdjacentHTML(
-  //   "beforeend",
-  //   `<h1>Round 10: The End, check the scoreboard to see wich place you are!</h1>`
-  // );
-  // showWinner.insertAdjacentHTML(
-  //   "beforeend",
-  //   `<h2>${userName} is the winner of this round!</h2>`
-  // );
-  // showWinner.insertAdjacentHTML("beforeend", `<p>${userName} gets 1 point</p>`);
-  // showSong.insertAdjacentHTML(
-  //   "beforeend",
-  //   // show image of cover song
-  // );
+});
+
+// End game
+socket.on("end game", function (userName, gameResults) {
+  console.log("Hier kom ik nog");
+  const scoreBoard = document.getElementById("informationTextAboutRound");
+  while (scoreBoard.firstChild) scoreBoard.firstChild.remove();
+  scoreBoard.insertAdjacentHTML("beforeend", `<h1>Game is over!</h1>`),
+    scoreBoard.insertAdjacentHTML(
+      "beforeend",
+      `<h2>Check the scoreboard to see who win the game</h2>`
+    );
+
+  const removeNextButton = document.getElementById("nextSong");
+  const removePlaySong = document.getElementById("StartGame");
+  removeNextButton.remove();
+  removePlaySong.remove();
 });

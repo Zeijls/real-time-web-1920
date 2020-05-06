@@ -20,8 +20,4 @@ app.get("/chat", chat);
 // callback route
 app.get("/callback", callback);
 
-// app.get("/:room", (req, res) => {
-//   res.render("pages/room");
-// });
-
 module.exports = app;

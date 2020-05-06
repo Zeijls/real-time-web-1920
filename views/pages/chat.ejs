@@ -7,6 +7,10 @@
 
 <body>
   <section class="chatForm">
+    <div class="headers">
+      <h1>The spotify game</h1>
+      <h2>To play with your friends</h2>
+    </div>
     <form class="username" id="usernameForm" action="">
       <label>
         <input id="username" autocomplete="off" placeholder="Username" /><button class="formButton">
@@ -30,32 +34,34 @@
 
   </section>
 
-
-  <div class="playgame">
-    <p id="trackName"><%- tracksData.track.name %></p>
-    <button data-id="<%- tracksData.track.id %>" id="StartGame" class="button">
-      Play song!
-    </button>
-
-
-    <button id="nextSong" class="button" data-token="<%- token %>">
-      Next song!
-    </button>
-
+  <section class="score">
+    <article id="scoreBoard">
+      <h1>Score Board</h1>
+    </article>
 
     <section id="roundEnd">
       <article id="informationTextAboutRound">
       </article>
     </section>
 
+  </section>
+
+  <div class="playgame">
+
+    <div class="buttonsGame">
+      <!-- <p id="trackName"><%- tracksData.track.name %></p> -->
+      <button data-id="<%- tracksData.track.id %>" id="StartGame" class="button">
+        Play
+      </button>
+
+
+      <button id="nextSong" class="button" data-token="<%- token %>">
+        Next Round
+      </button>
+
+    </div>
+
   </div>
-
-  <!-- <main id="game" class="locked">
-    <section id="trackList">
-
-    </section> -->
-
-
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>

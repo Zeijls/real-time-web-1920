@@ -8,14 +8,43 @@ a {
   text-decoration: none;
 }
 
+body {
+  height: 100vh;
+}
+
+.headers {
+  margin-right: 0;
+  width: 100%;
+}
+
+.headers>h1 {
+  font-size: 2.5vw;
+  text-transform: uppercase;
+  margin: 0;
+
+}
+
+.headers>h2 {
+  font-size: 1vw;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  margin-bottom: 8%;
+}
+
 /* Buttons */
 
 .button {
   background: #41CE47;
-  border-radius: 50px;
-  padding: 1rem 2rem;
+  border-radius: 20px;
+  padding: 1rem 1.5rem;
   border: 0;
   font-size: 1rem;
+  color: #f3f3f3;
+}
+
+.button:hover {
+  background: rgb(79, 238, 87);
+  color: white;
 }
 
 .formButton {
@@ -65,7 +94,7 @@ form input {
 
 /* Message */
 .message {
-  width: 40%;
+  width: 30%;
   margin-bottom: 2%;
 }
 
@@ -96,14 +125,15 @@ form.message {
 }
 
 .message input {
-  background: white;
-  color: black;
+  /* background: white;
+  color: black; */
   font-size: 1rem;
 }
 
 #messages {
   list-style-type: none;
-  margin: 0;
+  margin: 5px 0;
+  /* border-radius: 5px; */
   padding: 0;
 }
 
@@ -113,38 +143,179 @@ form.message {
 
 /* Server message  */
 #messages li.server-message {
-  border: 5px #83D16D;
-  background: #83D16D;
-  margin: 5px;
-  color: black;
+  /* border: 5px #333333; */
+  padding: 0.6rem 1rem;
+  background: #333333;
+  border-radius: 5px;
+  margin: 5px 0;
+  color: white;
 }
 
-#StartGame {
+/* #StartGame {
   padding: 1.5rem 3rem;
   min-width: 5rem;
   font-size: 1.5rem;
-}
-
+} */
+/* 
 #StartGame {
   position: absolute;
   top: 3rem;
-  /* right: 15rem; */
+  right: 15rem;
   right: 3rem;
-}
+} */
 
 /* chat form */
 
 body {
   display: flex;
   flex-direction: row;
+  padding: 10px;
 
 }
 
 .chatForm {
   width: 40%;
+  /* background-color: #181818; */
+}
+
+.score {
+  width: 45%;
+  margin: 0;
 }
 
 .playgame {
-  width: 60%;
+  width: 15%;
+  align-items: flex-end;
+  margin-top: 15%;
+}
 
+.playgame h1 {
+  font-size: 2rem;
+  /* text-align: center; */
+}
+
+.playgame h2 {
+  font-size: 1.2rem;
+  /* text-align: center; */
+}
+
+.playgame p {
+  font-size: 1.2rem;
+  letter-spacing: 0.2rem;
+  /* text-align: center; */
+}
+
+/* end game */
+#informationTextAboutRound {
+  width: 80%;
+  margin: auto;
+  margin-top: 10%;
+}
+
+#informationTextAboutRound>h1 {
+  font-size: 2.5vw;
+  text-transform: uppercase;
+  margin: 0;
+
+}
+
+#informationTextAboutRound>h2 {
+  font-size: 1.5vw;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  margin-bottom: 8%;
+}
+
+#informationTextAboutRound>p {
+  font-size: 1.5vw;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  margin-bottom: 8%;
+}
+
+/* Buttons play game */
+.buttonsGame {
+  margin-right: 0;
+  margin-top: 3%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  width: 15%;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Button play */
+#StartGame {
+  position: relative;
+  border-radius: 50px;
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin-bottom: 10%;
+  width: 90%
+}
+
+#nextSong {
+  position: relative;
+  font-size: 1çnrem;
+  width: 90%;
+  /* width: 100px; */
+}
+
+/* score board */
+
+#scoreBoard {
+  width: 80%;
+  margin: auto;
+  text-align: left;
+  margin-top: 20%;
+}
+
+#scoreBoard h1 {
+  background: #41CE47;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  text-decoration: none;
+  font-weight: 700;
+  text-align: center;
+}
+
+#scoreBoard p {
+  background-color: #333333;
+  font-size: 1rem;
+  margin: 5px 0;
+  padding: 0.8rem 1rem;
+  border-radius: 5px;
+}
+
+/* Login page */
+
+.login {
+  text-align: center;
+  margin: auto;
+  width: 60%;
+}
+
+.login h1 {
+  font-size: 8vw;
+  font-weight: 800;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.login h2 {
+  font-size: 2vw;
+  font-weight: 200;
+  letter-spacing: 1rem;
+}
+
+#Login {
+  margin-top: 5%;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
 }
