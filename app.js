@@ -152,7 +152,7 @@ ioInstance.on("connection", function (socket) {
       ioInstance.emit("end game", userName, gameResults);
       ioInstance.emit(
         "server message",
-        `SERVER: ${userName} has guessed 10 songs and ended the game!`
+        `SERVER: You have has guessed 10 songs and ended the game!`
       );
     }
   }
