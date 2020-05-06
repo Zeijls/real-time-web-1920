@@ -1,6 +1,6 @@
 <h1 align="center">Real-Time Web @cmda-minor-web · 2019-2020</h1>
 
-<p align="center"><b>In deze applicatie kun je tijdens de corona tijd samen met je vrienden de Spotify Game spelen. Je komt met elkaar in een chat, en er wordt een random liedje afgespeelt. Als je de naam van de titel weet kun je deze in de groepschat sturen, als het antwoord goed is kan je punten verdienen. </b>
+<p align="center"><b>In deze applicatie kun je bijvoorbeeld tijdens de corona tijd samen met je vrienden de Spotify Game spelen. Je komt met elkaar in een chat, en er wordt een random liedje afgespeelt. Als je de naam van de titel weet kun je deze in de groepschat sturen, als het antwoord goed is kan je punten verdienen. </b>
 </p>
 
 <br>
@@ -11,11 +11,6 @@
   </a>
   &nbsp;&nbsp;&nbsp;
 </p>
-
-<br>
-
-<img width="1440" alt="Screenshot 2020-05-06 at 02 36 02" src="https://user-images.githubusercontent.com/45422060/81128876-c42b3180-8f42-11ea-960a-34ec9b3ddf74.png">
-<img width="1440" alt="Screenshot 2020-05-06 at 02 36 16" src="https://user-images.githubusercontent.com/45422060/81128878-c55c5e80-8f42-11ea-96f1-67bc7c1513a7.png">
 
 <br>
 
@@ -39,46 +34,22 @@
 
 [Prototype](https://real-time-web-simone.herokuapp.com/)
 
-## Installatie
-
-```bash
-#### Clone repository
-git clone https://github.com/zeijls/real-time-web-1920.git
-
-cd real-time-web-1920
-
-#### Installeer dependencies en start de server
-npm run dev
-```
-
-## Real time events
-
-### Client
-
-- `chat message` : Een berichtje versturen naar andere gebruikers in de chat
-- `set user` : Username invoeren
-
-- `get tokens`: Accestoken en ID opvragen bij iedere client
-
-### Server
-
-- `server message` : Een notificatie van de server naar de gebruikers > Voorbeeld "welcome to the void", "Your username was changed to \$...", enz.
-
-- `play song`: Random Track afspelen bij iedere gebruiker dmv de [Start/Resume a User's Playback Scope](https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/).
-
 ## Concept
 
 ### Game voor spotify
 
 #### Autorisatie
 
-De gebruiker van de applicatie heeft een spotify account nodig. Als eerste scherm ziet de gebruiker een scherm met "Inloggen met Spotify". Zodra de gebruiker op deze knop klikt wordt hij door gestuurd naar de autorisatie. Als de autorisatie van spotify succesvol is afgerond komt de gebruiker in de chat.
+De gebruiker van de applicatie heeft een premium spotify account nodig. Als eerst ziet de gebruiker een scherm met "Inloggen met Spotify". Zodra de gebruiker op deze knop klikt wordt hij door gestuurd naar de autorisatie. Als de autorisatie van spotify succesvol is afgerond komt de gebruiker in de chat.
 
 <img width="1357" alt="Screenshot 2020-05-03 at 17 00 39" src="https://user-images.githubusercontent.com/45422060/80917506-a651a700-8d5f-11ea-8345-328d52909a65.png">
 
 #### Random track
 
-Alle spelers komen in hetzelfde spel terecht. Van de eerste speler in het spel wordt zijn lijst met opgeslagen nummers opgehaald vanuit de spotify API. Hier wordt een random track van afgespeelt voor alle deelnemers. Zodra een van de deelnemers weet welk nummer er wordt afgespeelt, kan hij het antwoord in de groepschat sturen. Als het antwoord goed is, heeft hij deze ronde gewonnen en krijgt hij een punt. Als het antwoord niet goed is blijft het spel gewoon door gaan. In totaal worden er 10 tracks afgespeeld. Aan het einde van het spel wordt er bekend gemaakt wie de winnaar is, en op welke plaats de andere spelers zijn geindigt.
+Alle spelers komen in hetzelfde spel terecht. Zodra een van de spelers op play klikt wordt er een random nummer uit zijn afspeellijst "liked songs" op spotify gegenereerd. Zodra een van de deelnemers weet welk nummer er wordt dit is, kan hij het antwoord in de groepschat sturen. Het antwoord wordt gecontroleerd en als het goed is heeft hij deze ronde gewonnen, hij krijgt hij een punt. Als het antwoord niet goed is blijft het spel gewoon door gaan. In het geval dat niemand het nummer weet kan deze ronde worden overgeslagen op het moment dat een van de gebruikers op de "next round" button klikt. In totaal zijn er 10 rondes met ieder 1 track om te raden. Aan het einde van het spel wordt er door middel van een score board duidelijk wie het spel heeft gewonnen.
+
+<img width="1440" alt="Screenshot 2020-05-06 at 02 36 02" src="https://user-images.githubusercontent.com/45422060/81128876-c42b3180-8f42-11ea-960a-34ec9b3ddf74.png">
+<img width="1440" alt="Screenshot 2020-05-06 at 02 36 16" src="https://user-images.githubusercontent.com/45422060/81128878-c55c5e80-8f42-11ea-96f1-67bc7c1513a7.png">
 
 ### Eerste schetsen concept
 
@@ -90,6 +61,18 @@ Alle spelers komen in hetzelfde spel terecht. Van de eerste speler in het spel w
 ![DataLifeCycle](https://user-images.githubusercontent.com/45422060/80916396-a9956480-8d58-11ea-8674-1696e78b3e3c.png)
 <br>
 [Authorization code flow](#Authorization-code-flow)
+
+## Installatie
+
+```bash
+#### Clone repository
+git clone https://github.com/zeijls/real-time-web-1920.git
+
+cd real-time-web-1920
+
+#### Installeer dependencies en start de server
+npm run dev
+```
 
 ## Spotify API - Externe Databron
 
@@ -111,7 +94,26 @@ Op dit moment heb ik nog maar 1 scope voor mijn applicatie gebruikt:
 - [Streaming](https://developer.spotify.com/documentation/general/guides/scopes/#streaming)
   - Van deze scope gebruik ik [Get Information About The User's Current Playback](https://developer.spotify.com/documentation/web-api/reference/player/get-information-about-the-users-current-playback/). Op de server is er een random track gekozen van bovenstaande lijst. Met deze scope kan ik de random track afspelen bij iedere gebruiker. Het is hiervoor wel noodzakelijk dat er al een ander liedje wordt afgespeelt, en alle gebruikers een premium spotify account hebben. Als dit niet het geval is zal dit in een melding worden aangegeven.
 
-## Wishlist
+## Real time events
+
+- `chat message` : Een berichtje versturen naar andere gebruikers in de chat
+- `set user` : Username invoeren
+
+- `get tokens`: Accestoken en ID opvragen bij iedere client
+
+- `play song`: Random Track afspelen bij iedere gebruiker dmv de [Start/Resume a User's Playback Scope](https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/).
+
+- `next round`: Hiermee gaat de gebruiker naar de volgende ronde van het spel, er wordt een nieuw random nummer uit de lijst gegenereerd.
+
+- `server message` : Een notificatie van de server naar de gebruikers > Voorbeeld "welcome to the void", "Your username was changed to \$...", enz.
+
+- `score board`: Het scoreboard geeft het aantal gewonnen punten per gebruiker weer.
+
+<!-- - `play song`: Random Track afspelen bij iedere gebruiker dmv de [Start/Resume a User's Playback Scope](https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/). -->
+
+## Features
+
+## Wishlist Features
 
 - Verschillende rooms
 - Een pin toevoegen waardoor je met je eigen vrienden kunt spelen
