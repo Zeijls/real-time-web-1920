@@ -69,7 +69,7 @@ ioInstance.on("connection", function (socket) {
 
   // Username
   let userName = "anonymous";
-  socket.emit("server message", `SERVER: Welcome to the void.`);
+  socket.emit("server message", `SERVER: Welcome to the game.`);
   socket.broadcast.emit(
     "server message",
     `SERVER: User ${userName} connected.`
@@ -104,7 +104,7 @@ ioInstance.on("connection", function (socket) {
     console.log(`user with id ${userName} disconnected`);
     ioInstance.emit(
       "server message",
-      `SERVER: User with id ${userName} disconnected.`
+      `SERVER: User ${userName} has left the game.`
     );
     ioInstance.emit("score board", gameResults);
   });

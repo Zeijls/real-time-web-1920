@@ -102,26 +102,259 @@ Op dit moment heb ik nog maar 1 scope voor mijn applicatie gebruikt:
 ## Real time events
 
 <details>
-<summary>`chat message` : Een berichtje versturen naar andere gebruikers in de chat </summary>
-Hallo
+<summary>set user : Username invoeren
+</summary>
+Zodra de gebruiker op de website komt, heeft hij de mogelijkheid zijn username in te voeren. Het is niet verplicht, maar zodra de gebruiker dit nog niet heeft gedaan, en de waarde van de username input leeg is krijgt hij de username: Annonymous. Als de username annoniem is kan hij wel berichten in de chat sturen, maar niet mee doen aan het spel omdat hier zijn punten voor moeten worden bij gehouden.
+
+Er zijn nog een aantal features die ik hieraan had willen toevoegen, zie [Wishlist Features](#Wishlist-Features)
+
 </details>
-- `set user` : Username invoeren
 
-- `get tokens`: Accestoken en ID opvragen bij iedere client
+<details>
+<summary>server message: Een notificatie van de server naar de gebruikers </summary>
+Zodra een gebruiker in logt wordt hij door een server bericht verwelkomt in het spel. Zodra de gebruiker zijn user name aan past wordt dit ook aan de andere spelers doorgegeveb via de server. Zodra een speler een nummer goed heeft geraden geeft de server dit aan aan de speler, maar ook aan alle andere spelers. Dit is niet perse nodig omdat dit ook wordt vermeld onder het scoreboard.
 
-- `play song`: Random Track afspelen bij iedere gebruiker dmv de [Start/Resume a User's Playback Scope](https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/).
+Ik heb hier onder alle server messages die ik heb toegepast in de applicatie op een rijtje gezet:
 
-- `next round`: Hiermee gaat de gebruiker naar de volgende ronde van het spel, er wordt een nieuw random nummer uit de lijst gegenereerd.
+```js
+socket.emit("server message", `SERVER: Welcome to the game.`);
+socket.broadcast.emit("server message", `SERVER: User ${userName} connected.`);
+socket.emit(
+  "server message",
+  `SERVER: Your username was changed to ${userName}.`
+);
+socket.broadcast.emit(
+  "server message",
+  `SERVER: User ${oldUsername} changed their name to ${userName}.`
+);
+ioInstance.emit(
+  "server message",
+  `SERVER: User ${userName} has left the game.`
+);
+ioInstance.emit(
+  "server message",
+  `SERVER: ${userName} guessed the song! It was: ${actualSong}.`
+);
+ioInstance.emit(
+  "server message",
+  `SERVER: You have has guessed 10 songs and ended the game!`
+);
+socket.emit(
+  "server message",
+  "Server: You don't have a spotify premium account. You can chat with people but you can't listen to the party music."
+);
+socket.emit(
+  "server message",
+  "Server: We can't find an active device please open your spotify application on your own device and start a random track to active the session."
+);
+```
 
-- `server message` : Een notificatie van de server naar de gebruikers > Voorbeeld "welcome to the void", "Your username was changed to \$...", enz.
+</details>
 
-- `score board`: Het scoreboard geeft het aantal gewonnen punten per gebruiker weer.
+<details>
+<summary>get song: de afspeellijst wordt gefetcht vanuit de API
+</summary>
+Zodra de gebruiker op de button klikt om een nummer af te spelen wordt de afspeellijst "liked songs" bij de gebruiker gefetcht. Hiervoor is de accestoken nodig. Deze nieuwe socket wordt hiermee geactiveerd.
 
-<!-- - `play song`: Random Track afspelen bij iedere gebruiker dmv de [Start/Resume a User's Playback Scope](https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/). -->
+```js
+// Get song
+socket.on("getSong", function (id) {
+  socket.emit("getTokens", id);
+  socket.broadcast.emit("getTokens", id);
+});
+```
+
+<details>
+<summary>get tokens: Accestoken en ID opvragen bij iedere client
+</summary>
+Door middel van dit verzoek worden de acccestoken en ID bij iedere gebruiker opgevraagt. Dit gaat als volgt:
+
+```js
+// Get Tokens
+socket.on("getTokens", function (id) {
+  const accessToken = document.cookie
+    .split(";")
+    .find((item) => {
+      return item.includes("accessToken");
+    })
+    .split("=")[1]
+    .trim();
+  socket.emit("playSong", {
+    id,
+    accessToken,
+    name,
+  });
+});
+```
+
+In dit stukje code vraagt de socket de coockie van de gebruikers op. Deze code wordt gebruikt om de individuele accestokens eruit te filteren zonder de punt komma als verbindingsstuk.
+
+</details>
+
+Zodra de accestoken is succesvol is ontvangen kan de get song socket de fetch afmaken:
+
+```js
+const fetch = require("node-fetch");
+
+module.exports = async function chat(req, res) {
+  const token = req.cookies.accessToken;
+  console.log(token);
+  const data = await fetch("https://api.spotify.com/v1/me/tracks", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(async (response) => {
+    const data = await response.json();
+    const randomNumber = await randomNumberGenerator(data.items);
+
+    return data.items[randomNumber];
+  });
+  console.log("chat.js");
+  console.log({ data });
+
+  res.render("pages/chat", {
+    tracksData: data,
+    token,
+  });
+};
+```
+
+Om het spel spannend te houden wordt er een random nummer gegenereert, zoals in de code te zien is worden de data items op de volgende manier gereturnt;
+
+```js
+return data.items[randomNumber];
+```
+
+In dit stukje wordt de volgende functie aangeroepen die een random getal genereert:
+
+````js
+
+function randomNumberGenerator(tracksData) {
+  return Math.floor(Math.random() * tracksData.length);
+}
+
+```
+
+Nu de data is gefetcht, is er een array met alle nummers die de gebruiker aan zijn "liked songs" afspeellijst heeft toegevoegd.
+
+
+</details>
+
+<details>
+<summary>play song: Random Track afspelen bij iedere gebruiker dmv de [Start/Resume a User's Playback Scope](https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/).
+</summary>
+Nu de afspeellijst van de gebruiker is opgehaald, kan er een nummer worden afgespeelt. Hiervoor wordt bovenstaande scope van de spotify api gebruikt.
+
+``` js
+
+  // Play song
+  socket.on("playSong", function (myObject) {
+    // Fetch for streaming spotify to play a track
+    fetch(`https://api.spotify.com/v1/me/player/play`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${myObject.accessToken}`,
+      },
+      body: JSON.stringify({
+        uris: [`spotify:track:${myObject.id}`],
+        title: [`spotify:track:${myObject.name}`],
+      }),
+    }).then(async (response) => {
+      tracksData = await response.json();
+      if (response.status == 403) {
+        socket.emit(
+          "server message",
+          "Server: You don't have a spotify premium account. You can chat with people but you can't listen to the party music."
+        );
+      }
+      if (response.status == 404) {
+        socket.emit(
+          "server message",
+          "Server: We can't find an active device please open your spotify application on your own device and start a random track to active the session."
+        );
+      }
+    });
+  });
+
+  ```
+
+  In bovenstaande code wordt de naam en het id van de track opgehaalt uit de gefetchte data, met het id kan de streamer het nummer afspelen, en de naam wordt gebruikt om te controlleren of het goede nummer is ingevuld in de chat.
+
+
+</details>
+
+<summary>chat message : Een berichtje versturen naar andere gebruikers in de chat
+</summary>
+Chat messages worden vanaf de client naar de server verstuurt. Op de server wordt gecontrolleert of het antwoord van de gebruiker overeen komt met de titel van de track die op dat moment wordt afgespeelt. Als het chat bericht overeen komt krijgt de gebruiker 1 punt. Als het antwoord niet goed is wordt het chat bericht wel naar alle andere gebruikers gestuurd, maar er gebeurd verder niets.
+
+Zodra een gebruiker ingelogt is krijgt hij zijn eigen random kleur toegewezen. Op deze manier is het makkelijk af te lezen wie wat in de chat stuurt.
+
+```js
+ioInstance.emit(
+  "chat message",
+  `${userName}: ${messageInputField}`,
+  randomColor
+);
+````
+
+Op deze manier wordt er een border om heen geplaatst met de random kleur.
+
+```js
+socket.on("chat message", function (msg, randomColor) {
+  const messages = document.getElementById("messages");
+  messages.insertAdjacentHTML(
+    "beforeend",
+    `<li class="chat-message" style="border: 2px solid ${randomColor};" >${msg}</li>`
+  );
+});
+```
+
+Zodra er een berichtje wordt gestuurt wordt de functie songTitleCheck afgevuurt om te controleren of het antwoord en de titel overeenkomen.
+
+```js
+socket.on("chat message", function (msg) {
+  console.log("message: " + msg);
+  // Check answer
+  songTitleCheck(msg);
+});
+```
+
+</details>
+
+<details>
+<summary>next round: Hiermee gaat de gebruiker naar de volgende ronde van het spel, er wordt een nieuw random nummer uit de lijst gegenereerd.
+</summary>
+
+</details>
+
+<details>
+<summary>player guessed song: 
+</summary>
+
+</details>
+
+<details>
+<summary>score board: Het scoreboard geeft het aantal gewonnen punten per gebruiker weer.
+</summary>
+
+</details>
+
+<details>
+<summary>end game: 
+</summary>
+
+</details>
 
 ## Features
 
 ## Wishlist Features
+
+`Set user`:
+
+- Server message zodra de gebruiker zijn username nog niet heeft ingevuld, maar wel wilt meedoen aan het spel
+- Username controleren of hij beschikbaar is, om zelfde usernames te voorkomen
 
 - Verschillende rooms
 - Een pin toevoegen waardoor je met je eigen vrienden kunt spelen
