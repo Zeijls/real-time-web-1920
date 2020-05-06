@@ -279,6 +279,7 @@ In bovenstaande code wordt de naam en het id van de track opgehaalt uit de gefet
 
 </details>
 
+<details>
 <summary>chat message : Een berichtje versturen naar andere gebruikers in de chat
 </summary>
 Chat messages worden vanaf de client naar de server verstuurt. Op de server wordt gecontrolleert of het antwoord van de gebruiker overeen komt met de titel van de track die op dat moment wordt afgespeelt. Als het chat bericht overeen komt krijgt de gebruiker 1 punt. Als het antwoord niet goed is wordt het chat bericht wel naar alle andere gebruikers gestuurd, maar er gebeurd verder niets.
