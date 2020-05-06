@@ -148,8 +148,7 @@ ioInstance.on("connection", function (socket) {
     }
     console.log(gameResults[userName].nextRound);
 
-    if (gameResults[userName].nextRound === 10) {
-      console.log("PLayer reach question 10!");
+    if (gameResults[userName].nextRound === 11) {
       ioInstance.emit("end game", userName, gameResults);
       ioInstance.emit(
         "server message",
