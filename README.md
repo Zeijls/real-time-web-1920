@@ -58,11 +58,13 @@ Alle spelers komen in hetzelfde spel terecht. Zodra een van de spelers op play k
 
 ## Data Life Cycle
 
-![DataLifeCycle](https://user-images.githubusercontent.com/45422060/80916396-a9956480-8d58-11ea-8674-1696e78b3e3c.png)
+![Data Life Cycle](https://user-images.githubusercontent.com/45422060/81130339-bd52ed80-8f47-11ea-9e8a-12612360ff9d.png)
 <br>
 [Authorization code flow](#Authorization-code-flow)
 
 ## Installatie
+
+Mijn project kun je installeren door de volgende commando's mee te geven aan de terminal
 
 ```bash
 #### Clone repository
@@ -70,7 +72,10 @@ git clone https://github.com/zeijls/real-time-web-1920.git
 
 cd real-time-web-1920
 
-#### Installeer dependencies en start de server
+#### Installeer dependencies
+npm install
+
+#### Start de server
 npm run dev
 ```
 
@@ -96,7 +101,10 @@ Op dit moment heb ik nog maar 1 scope voor mijn applicatie gebruikt:
 
 ## Real time events
 
-- `chat message` : Een berichtje versturen naar andere gebruikers in de chat
+<details>
+<summary>`chat message` : Een berichtje versturen naar andere gebruikers in de chat </summary>
+Hallo
+</details>
 - `set user` : Username invoeren
 
 - `get tokens`: Accestoken en ID opvragen bij iedere client
