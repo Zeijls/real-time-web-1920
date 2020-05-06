@@ -8,7 +8,7 @@ const port = process.env.PORT;
 const mongoose = require("mongoose");
 const User = require("./database/models/User");
 
-// Database mongoose
+// Database
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -64,6 +64,7 @@ ioInstance.on("connection", function (socket) {
   const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
   console.log("socket created");
 
+  // Scoreboard
   ioInstance.emit("score board", gameResults);
 
   // Username
@@ -87,14 +88,14 @@ ioInstance.on("connection", function (socket) {
       `SERVER: User ${oldUsername} changed their name to ${userName}.`
     );
 
-    // Set gameresults
+    // Set Gameresults
     gameResults[userName] = {
       userName: userName,
       wins: 0,
       nextRound: 1,
     };
 
-    // Update Scoreboard
+    // Update scoreboard
     ioInstance.emit("score board", gameResults);
   });
 
@@ -108,20 +109,20 @@ ioInstance.on("connection", function (socket) {
     ioInstance.emit("score board", gameResults);
   });
 
-  // Chat Message
+  // Chatmessage
   socket.on("chat message", function (msg) {
     console.log("message: " + msg);
+    // Check answer
     songTitleCheck(msg);
   });
 
   // Next song
   socket.on("next song", async function (token, userName) {
-    // Random song
     function randomNumberGenerator(tracksData) {
       return Math.floor(Math.random() * tracksData.length);
     }
 
-    // Fetch liked songs user's spotify
+    // Fetch liked songs user
     const data = await fetch("https://api.spotify.com/v1/me/tracks", {
       headers: {
         "Content-Type": "application/json",
@@ -130,7 +131,6 @@ ioInstance.on("connection", function (socket) {
     }).then(async (response) => {
       const data = await response.json();
       const randomNumber = await randomNumberGenerator(data.items);
-
       updateRound(userName);
 
       return data.items[randomNumber];
@@ -158,13 +158,15 @@ ioInstance.on("connection", function (socket) {
     }
   }
 
-  // Get Song
+  // Get song
   socket.on("getSong", function (id) {
     socket.emit("getTokens", id);
+    socket.broadcast.emit("getTokens", id);
   });
 
-  // Streamer spotify to play a track
+  // Play song
   socket.on("playSong", function (myObject) {
+    // Fetch for streaming spotify to play a track
     fetch(`https://api.spotify.com/v1/me/player/play`, {
       method: "PUT",
       headers: {
@@ -192,7 +194,7 @@ ioInstance.on("connection", function (socket) {
     });
   });
 
-  // Check answer
+  // Check answer chat
   function songTitleCheck(msg) {
     const messageInputField = msg.messageInputField;
     const actualSong = msg.actualSong;
@@ -207,14 +209,12 @@ ioInstance.on("connection", function (socket) {
         "server message",
         `SERVER: ${userName} guessed the song! It was: ${actualSong}.`
       );
-
       ioInstance.emit("player guessed song", userName, actualSong);
 
       // Score
       setAPoint(userName);
 
       // Scoreboard
-
       ioInstance.emit("score board", gameResults);
     } else {
       ioInstance.emit(
@@ -225,14 +225,13 @@ ioInstance.on("connection", function (socket) {
     }
   }
 
-  // Set a point to winner
+  // Winners point
   function setAPoint(userName) {
     if (gameResults[userName].wins) {
       gameResults[userName].wins++;
     } else {
       gameResults[userName].wins = 1;
     }
-    console.log(gameResults[userName].wins);
   }
 });
 
