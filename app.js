@@ -9,32 +9,32 @@ const mongoose = require("mongoose");
 const User = require("./database/models/User");
 
 // Database
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connection succesfull");
-  })
+// mongoose
+//   .connect(process.env.MONGODB_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   })
+//   .then(() => {
+//     console.log("Connection succesfull");
+//   })
 
-  .catch((error) => {
-    console.log(error);
-  });
+//   .catch((error) => {
+//     console.log(error);
+//   });
 
-const newUser = new User({
-  _id: new mongoose.Types.ObjectId(),
-  username: "Hoi",
-});
+// const newUser = new User({
+//   _id: new mongoose.Types.ObjectId(),
+//   username: "Hoi",
+// });
 
-User.create(newUser);
+// User.create(newUser);
 
-User.find().then((users) => {
-  const firstUser = users[0];
-  const seccondUser = users[1];
+// User.find().then((users) => {
+//   const firstUser = users[0];
+//   const seccondUser = users[1];
 
-  console.log(seccondUser);
-});
+//   console.log(seccondUser);
+// });
 
 const http = require("http");
 const server = http.createServer(app);
